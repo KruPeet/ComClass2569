@@ -225,7 +225,7 @@ textarea.fc2{resize:vertical;min-height:68px}
   <div class="nb" onclick="nav('home')"><span>💻</span><span id="ntitle">ComClass</span></div><div id="gas-indicator" style="display:none;margin-left:8px;padding:2px 8px;border-radius:10px;font-size:.68rem;font-weight:600;background:#d1fae5;color:#065f46">🔗 GAS</div>
   <div class="nl">
     <button class="nbt nbg" onclick="nav('home')">🏠 หน้าแรก</button>
-    <button class="nbt nbg" onclick="nav('progress')">📈 ความก้าวหน้า</button>
+
     <button class="nbt nbp" onclick="goAdmin()">⚙️ Admin</button>
   </div>
 </nav>
@@ -276,15 +276,6 @@ textarea.fc2{resize:vertical;min-height:68px}
   <div class="inner">
     <div class="lbanner" id="qb"><div class="lbl" id="qcl"></div><div class="lbt" id="qtit"></div></div>
     <div id="qarea"></div>
-  </div>
-</div>
-
-<!-- PROGRESS -->
-<div id="page-progress" class="page">
-  <div class="inner" style="max-width:1000px">
-    <div style="font-size:1.35rem;font-weight:800;color:var(--p);margin-bottom:18px">📈 ความก้าวหน้าของฉัน</div>
-    <div class="srow" id="pstats"></div>
-    <div class="pgrid" id="pgrid"></div>
   </div>
 </div>
 
@@ -767,11 +758,10 @@ function rHome(){
   const g=document.getElementById('cgrid');g.innerHTML='';
   if(!cl.length){g.innerHTML='<div class="es" style="grid-column:1/-1"><div class="ei">📚</div><p>ยังไม่มีรายวิชา</p></div>';return;}
   cl.forEach(c=>{
-    const{d,t}=gcp(c.id);const pct=t?Math.round(d/t*100):0;
     const chips=(c.units||[]).slice(0,4).map(u=>'<span class="uc">'+u.icon+' '+u.name+'</span>').join('');
     const more=c.units.length>4?'<span class="uc ucm">+'+( c.units.length-4)+'</span>':'';
     const card=document.createElement('div');card.className='cc';card.onclick=()=>nav('course',c.id);
-    card.innerHTML='<div class="cch" style="background:'+c.gradient+'"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.85rem">'+c.emoji+'</span><div><h3>'+c.title+'</h3><p>'+c.level+'</p></div></div></div><div class="ccb"><p class="ccd">'+c.desc+'</p><div class="uchips">'+chips+more+'</div><div class="cpbar"><div class="cplb"><span>ความก้าวหน้า</span><span>'+d+'/'+t+'</span></div><div class="cpb"><div class="cpf" style="width:'+pct+'%"></div></div></div></div>';
+    card.innerHTML='<div class="cch" style="background:'+c.gradient+'"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.85rem">'+c.emoji+'</span><div><h3>'+c.title+'</h3><p>'+c.level+'</p></div></div></div><div class="ccb"><p class="ccd">'+c.desc+'</p><div class="uchips">'+chips+more+'</div></div>';
     g.appendChild(card);
   });
 }
@@ -787,8 +777,8 @@ function rCourse(cid){
   const ul=document.getElementById('ulist');ul.innerHTML='';
   (c.units||[]).forEach((u,i)=>{
     const done=gp(cid,i),qd=gqd(cid,i);
-    const el=document.createElement('div');el.className='ui'+(done?' done':'');el.onclick=()=>nav('lesson',cid,i);
-    el.innerHTML='<div class="uico">'+u.icon+'</div><div class="uinf"><span class="ubadge">หน่วยที่ '+(i+1)+'</span><div class="uname">'+u.name+'</div><div class="usum">'+u.summary+'</div></div><div style="flex-shrink:0;text-align:right">'+(done?'<span style="color:#10b981;font-size:.8rem">✅</span>':'')+(qd?'<div style="font-size:.68rem;color:#6b7280;margin-top:2px">Quiz '+qd.pct+'%</div>':'')+'</div><div style="color:#d1d5db;margin-left:4px">›</div>';
+    const el=document.createElement('div');el.className='ui';el.onclick=()=>nav('lesson',cid,i);
+    el.innerHTML='<div class="uico">'+u.icon+'</div><div class="uinf"><span class="ubadge">หน่วยที่ '+(i+1)+'</span><div class="uname">'+u.name+'</div><div class="usum">'+u.summary+'</div></div><div style="color:#d1d5db;margin-left:4px">›</div>';
     ul.appendChild(el);
   });
 }
@@ -804,10 +794,6 @@ function rLesson(cid,ui){
   document.getElementById('ltitle').textContent=u.icon+' '+u.name;
   document.getElementById('lsub').textContent='หน่วยที่ '+(ui+1)+' จาก '+c.units.length+' หน่วย';
   const area=document.getElementById('larea');area.innerHTML='';
-  const isDone=gp(cid,ui);
-  const db=document.createElement('button');db.className='mdb '+(isDone?'done':'undone');
-  db.textContent=isDone?'✅ เรียนแล้ว — คลิกเพื่อยกเลิก':'📌 ทำเครื่องหมายว่าเรียนแล้ว';
-  db.onclick=()=>{sp(cid,ui,!gp(cid,ui));rLesson(cid,ui);};area.appendChild(db);
   area.innerHTML+='<div class="ccard"><h3>📝 สรุปเนื้อหา</h3><p style="font-family:\'Sarabun\',sans-serif;color:#6b7280;line-height:1.75">'+u.summary+'</p></div>';
   // เนื้อหาบทเรียน (rich content)
   if(u.content&&u.content.trim()){area.innerHTML+='<div class="ccard"><h3>📄 เนื้อหาบทเรียน</h3><div style="font-family:\'Sarabun\',sans-serif;font-size:.93rem;line-height:1.8;color:#374151">'+u.content+'</div></div>';}
