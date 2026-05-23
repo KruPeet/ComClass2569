@@ -1,0 +1,22 @@
+{
+  "name": "ComClass - เรียนคอมพิวเตอร์",
+  "short_name": "ComClass",
+  "description": "สื่อการสอนวิชาคอมพิวเตอร์ ระดับมัธยมศึกษา พร้อม Quiz และติดตามความก้าวหน้า",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fefce8",
+  "theme_color": "#7c3aed",
+  "lang": "th",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192x192/7c3aed/ffffff?text=CC",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512x512/7c3aed/ffffff?text=CC",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

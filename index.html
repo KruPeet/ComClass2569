@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="ComClass เว็บไซต์สื่อการสอนวิชาคอมพิวเตอร์ ระดับมัธยมศึกษา">
+  <meta name="theme-color" content="#7c3aed">
+  <meta property="og:title" content="ComClass - เรียนคอมพิวเตอร์">
+  <meta property="og:description" content="สื่อการสอนวิชาคอมพิวเตอร์ ระดับมัธยมศึกษา พร้อม Quiz และติดตามความก้าวหน้า">
+  <link rel="manifest" href="manifest.json">
+<title>ComClass</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--p:#7c3aed;--pl:rgba(124,58,237,.12);--sec:#6b7280;--bg:#fefce8;--sur:#fff;--txt:#1f2937;--bdr:#e5e7eb}
+html,body{height:100%;font-family:'Prompt',sans-serif;background:var(--bg);color:var(--txt)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-thumb{background:#c4b5fd;border-radius:3px}
+nav{position:sticky;top:0;z-index:100;background:rgba(254,252,232,.93);backdrop-filter:blur(12px);border-bottom:1px solid #fde68a;padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.nb{display:flex;align-items:center;gap:8px;cursor:pointer}.nb span{font-size:1.2rem;font-weight:800;color:var(--p)}
+.nl{display:flex;align-items:center;gap:6px}
+.nbt{padding:6px 14px;border-radius:20px;border:none;cursor:pointer;font-family:'Prompt',sans-serif;font-size:.82rem;font-weight:500;transition:all .2s}
+.nbg{background:transparent;color:var(--sec)}.nbg:hover{background:var(--pl);color:var(--p)}
+.nbp{background:var(--p);color:#fff}.nbp:hover{opacity:.85}
+.page{display:none;min-height:calc(100vh - 57px)}.page.active{display:block;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.loader-ov{display:none;position:fixed;inset:0;z-index:9999;background:rgba(255,255,255,.88);backdrop-filter:blur(4px);align-items:center;justify-content:center;flex-direction:column;gap:14px}
+.loader-ov.show{display:flex}
+.spin{width:42px;height:42px;border:4px solid #ede9fe;border-top-color:var(--p);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hero{background:radial-gradient(ellipse 600px 300px at 5% 10%,rgba(255,182,193,.4) 0%,transparent 70%),radial-gradient(ellipse 500px 400px at 90% 20%,rgba(135,206,250,.35) 0%,transparent 70%),radial-gradient(ellipse 400px 300px at 50% 90%,rgba(255,255,150,.3) 0%,transparent 70%);text-align:center;padding:54px 20px 34px}
+.he{font-size:3.6rem;display:block;margin-bottom:12px;animation:fl 3s ease-in-out infinite}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero h1{font-size:1.9rem;font-weight:800;color:var(--p);margin-bottom:6px}
+.hero p{color:var(--sec);font-family:'Sarabun',sans-serif;font-size:.93rem}
+.htags{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px}
+.tag{padding:5px 14px;border-radius:20px;font-size:.82rem;font-weight:500}
+.sec{max-width:1100px;margin:0 auto;padding:26px 20px}
+.st{font-size:1.3rem;font-weight:700;text-align:center;margin-bottom:18px}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:16px}
+.cc{border-radius:16px;overflow:hidden;border:1px solid var(--bdr);background:var(--sur);cursor:pointer;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.cc:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 16px 36px rgba(0,0,0,.1)}
+.cch{padding:16px;color:#fff}.cch h3{font-size:1rem;font-weight:700}.cch p{font-size:.76rem;opacity:.8}
+.ccb{padding:13px}.ccd{font-size:.83rem;color:var(--sec);font-family:'Sarabun',sans-serif;margin-bottom:9px}
+.uchips{display:flex;flex-wrap:wrap;gap:5px}
+.uc{font-size:.72rem;padding:3px 9px;border-radius:20px;background:#f3f4f6;color:var(--txt)}
+.ucm{background:var(--pl);color:var(--p)}
+.cpbar{margin-top:9px}.cplb{display:flex;justify-content:space-between;font-size:.7rem;color:var(--sec);margin-bottom:3px}
+.cpb{height:5px;background:#f3f4f6;border-radius:4px;overflow:hidden}
+.cpf{height:100%;background:var(--p);border-radius:4px;transition:width .5s ease}
+.bc{max-width:820px;margin:0 auto;padding:12px 20px 0;font-size:.8rem;color:var(--sec);display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.bc a{color:var(--p);cursor:pointer}.bc a:hover{text-decoration:underline}.bcs{color:#9ca3af}
+.inner{max-width:820px;margin:0 auto;padding:16px 20px}
+.banner{border-radius:16px;padding:22px;color:#fff;margin-bottom:18px}
+.banner h1{font-size:1.4rem;font-weight:700}
+.banner p{font-size:.83rem;opacity:.88;font-family:'Sarabun',sans-serif;margin-top:4px}
+.psumm{background:var(--sur);border:1px solid var(--bdr);border-radius:13px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.pring{position:relative;width:58px;height:58px;flex-shrink:0}.pring svg{transform:rotate(-90deg)}
+.pringt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.73rem;font-weight:700;color:var(--p)}
+.pinf h3{font-size:.92rem;font-weight:700}.pinf p{font-size:.78rem;color:var(--sec);margin-top:2px}
+.ulist{display:flex;flex-direction:column;gap:9px}
+.ui{display:flex;align-items:center;gap:13px;background:var(--sur);border:1px solid var(--bdr);border-radius:13px;padding:13px;cursor:pointer;transition:all .22s}
+.ui:hover{background:linear-gradient(135deg,#fff,#f0f9ff);transform:translateX(4px)}
+.ui.done{border-color:#a7f3d0;background:linear-gradient(135deg,#f0fdf4,#fff)}
+.uico{font-size:1.8rem;flex-shrink:0}.uinf{flex:1;min-width:0}
+.ubadge{font-size:.68rem;padding:2px 8px;border-radius:20px;background:var(--pl);color:var(--p);display:inline-block;margin-bottom:2px}
+.uname{font-weight:700;font-size:.92rem}.usum{font-size:.78rem;color:var(--sec);font-family:'Sarabun',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbanner{border-radius:16px;padding:20px;color:#fff;margin-bottom:18px}
+.lbl{font-size:.76rem;opacity:.8;margin-bottom:2px}.lbt{font-size:1.25rem;font-weight:700}.lbs{font-size:.76rem;opacity:.65;margin-top:2px}
+.ccard{background:var(--sur);border:1px solid var(--bdr);border-radius:14px;padding:20px;margin-bottom:13px}
+.ccard h3{font-size:.97rem;font-weight:700;margin-bottom:11px}
+.kp{display:flex;align-items:flex-start;gap:9px;padding:9px;border-radius:9px;margin-bottom:6px;background:linear-gradient(135deg,#f0f9ff,#fdf4ff)}
+.kpn{width:24px;height:24px;border-radius:50%;background:var(--p);color:#fff;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.kpt{font-family:'Sarabun',sans-serif;font-size:.9rem}
+.fc{display:flex;flex-wrap:wrap;align-items:center;gap:6px;justify-content:center;padding:9px 0}
+.fcs{padding:6px 15px;border-radius:9px;color:#fff;font-size:.8rem;font-weight:500}
+.fca{color:#9ca3af;font-size:.95rem}
+.vidph{background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:11px;padding:42px 20px;text-align:center;color:#fff}
+.lnav{display:flex;justify-content:space-between;align-items:center;padding-top:5px;gap:8px}
+.lnb{display:flex;align-items:center;gap:5px;padding:9px 15px;border-radius:11px;border:none;cursor:pointer;font-family:'Prompt',sans-serif;font-size:.8rem;font-weight:500;transition:all .2s}
+.lnprev{background:var(--pl);color:var(--p)}.lnnext{background:var(--p);color:#fff}.lnb:hover{opacity:.82;transform:scale(1.03)}
+.mdb{display:block;width:100%;padding:11px;border-radius:11px;border:none;cursor:pointer;font-family:'Prompt',sans-serif;font-size:.92rem;font-weight:600;margin-bottom:11px;transition:all .2s}
+.mdb.undone{background:var(--p);color:#fff}.mdb.undone:hover{opacity:.85}
+.mdb.done{background:#d1fae5;color:#065f46}.mdb.done:hover{background:#a7f3d0}
+.qcard{background:var(--sur);border:1px solid var(--bdr);border-radius:14px;padding:22px;margin-bottom:13px}
+.qqt{font-weight:600;font-size:.93rem;margin-bottom:12px}
+.qopts{display:flex;flex-direction:column;gap:8px}
+.qopt{padding:10px 15px;border-radius:9px;border:2px solid var(--bdr);background:#fafafa;cursor:pointer;font-family:'Sarabun',sans-serif;font-size:.88rem;text-align:left;transition:all .2s}
+.qopt:hover:not(:disabled){border-color:var(--p);background:var(--pl)}
+.qopt.correct{border-color:#10b981;background:#d1fae5;color:#065f46}
+.qopt.wrong{border-color:#ef4444;background:#fee2e2;color:#991b1b}
+.qopt:disabled{cursor:default}
+.qfb{margin-top:9px;padding:9px 13px;border-radius:9px;font-family:'Sarabun',sans-serif;font-size:.85rem}
+.qfb.ok{background:#d1fae5;color:#065f46}.qfb.fail{background:#fee2e2;color:#991b1b}
+.qdot{width:9px;height:9px;border-radius:50%;background:#e5e7eb;display:inline-block}
+.qdot.ok{background:#10b981}.qdot.fail{background:#ef4444}.qdot.cur{background:var(--p)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.pcard{background:var(--sur);border:1px solid var(--bdr);border-radius:13px;padding:16px}
+.pb{height:7px;background:#f3f4f6;border-radius:5px;overflow:hidden;margin:5px 0}
+.pbf{height:100%;border-radius:5px;transition:width .6s ease}
+.srow{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:22px}
+.smin{flex:1;min-width:110px;background:var(--sur);border:1px solid var(--bdr);border-radius:11px;padding:13px;text-align:center}
+.smn{font-size:1.65rem;font-weight:800;color:var(--p)}.sml{font-size:.72rem;color:var(--sec)}
+.awrap{display:flex;height:calc(100vh - 57px)}
+.aside{width:225px;flex-shrink:0;background:#1e1b4b;color:#fff;display:flex;flex-direction:column;overflow-y:auto}
+.ashd{padding:16px;border-bottom:1px solid rgba(255,255,255,.1)}
+.ashd h2{font-size:.92rem;font-weight:700}.ashd p{font-size:.7rem;opacity:.52;margin-top:2px}
+.anav{flex:1;padding:8px 0}
+.ani{display:flex;align-items:center;gap:9px;padding:9px 16px;cursor:pointer;font-size:.83rem;transition:all .2s;color:rgba(255,255,255,.62)}
+.ani:hover{background:rgba(255,255,255,.1);color:#fff}
+.ani.active{background:rgba(124,58,237,.4);color:#fff;border-right:3px solid #a78bfa}
+.asep{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.28);padding:9px 16px 3px}
+.amain{flex:1;overflow-y:auto;background:#f8f7ff}
+.acontent{padding:22px;max-width:960px}
+.apage{display:none}.apage.active{display:block;animation:fi .25s ease}
+.ahdr{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.ahdr h1{font-size:1.35rem;font-weight:700;color:#1e1b4b}
+.ahdr p{font-size:.8rem;color:#6b7280;margin-top:2px}
+.db-bar{display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:9px;font-size:.78rem;margin-bottom:18px;font-weight:500}
+.db-bar.ok{background:#d1fae5;color:#065f46}.db-bar.err{background:#fee2e2;color:#991b1b}.db-bar.local{background:#fef3c7;color:#92400e}
+.db-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.db-bar.ok .db-dot{background:#10b981}.db-bar.err .db-dot{background:#ef4444}.db-bar.local .db-dot{background:#f59e0b}
+.btn{padding:8px 15px;border-radius:9px;border:none;cursor:pointer;font-family:'Prompt',sans-serif;font-size:.8rem;font-weight:500;display:inline-flex;align-items:center;gap:5px;transition:all .2s}
+.bsm{padding:5px 10px;font-size:.75rem;border-radius:7px}
+.bpri{background:var(--p);color:#fff}.bpri:hover{opacity:.85;transform:translateY(-1px)}
+.bdan{background:#fee2e2;color:#dc2626}.bdan:hover{background:#dc2626;color:#fff}
+.bsec{background:#e5e7eb;color:#374151}.bsec:hover{background:#d1d5db}
+.bsuc{background:#d1fae5;color:#065f46}.bsuc:hover{background:#065f46;color:#fff}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:13px;margin-bottom:22px}
+.sc{background:#fff;border-radius:12px;padding:16px;border:1px solid #e5e7eb}
+.sci{font-size:1.5rem;margin-bottom:5px}.scn{font-size:1.8rem;font-weight:800;color:#1e1b4b}.scl{font-size:.76rem;color:#6b7280}
+.tw{background:#fff;border-radius:12px;border:1px solid #e5e7eb;overflow:hidden}
+.ttb{padding:13px 16px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}
+.tsr{padding:7px 11px;border:1px solid #e5e7eb;border-radius:8px;font-family:'Prompt',sans-serif;font-size:.8rem;width:190px;outline:none}
+.tsr:focus{border-color:var(--p)}
+table{width:100%;border-collapse:collapse}
+th{padding:10px 13px;text-align:left;font-size:.73rem;font-weight:600;color:#6b7280;background:#f9fafb;border-bottom:1px solid #f3f4f6;text-transform:uppercase;letter-spacing:.4px}
+td{padding:11px 13px;border-bottom:1px solid #f9fafb;font-size:.83rem;color:#374151;vertical-align:middle}
+tr:last-child td{border-bottom:none}tr:hover td{background:#fafbff}
+.tda{display:flex;gap:5px}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.7rem;font-weight:500}
+.bpu{background:var(--pl);color:var(--p)}.bbl{background:#dbeafe;color:#2563eb}.bgr{background:#d1fae5;color:#065f46}
+.mov{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px}
+.mov.open{display:flex;animation:fi .2s ease}
+.modal{background:#fff;border-radius:17px;width:100%;max-width:590px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 24px 56px rgba(0,0,0,.2)}
+.mhd{padding:16px 21px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between}
+.mhd h2{font-size:1rem;font-weight:700;color:#1e1b4b}
+.mcl{background:#f3f4f6;border:none;cursor:pointer;width:28px;height:28px;border-radius:50%;font-size:.85rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.mcl:hover{background:#e5e7eb}
+.mbd{padding:20px;overflow-y:auto;flex:1}
+.mft{padding:13px 21px;border-top:1px solid #f3f4f6;display:flex;justify-content:flex-end;gap:8px}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:.8rem;font-weight:600;color:#374151;margin-bottom:4px}
+.fg small{font-size:.7rem;color:#9ca3af;display:block;margin-top:3px}
+.fc2{width:100%;padding:8px 11px;border:1px solid #e5e7eb;border-radius:8px;font-family:'Prompt',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s;background:#fff;color:#374151}
+.fc2:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+textarea.fc2{resize:vertical;min-height:68px}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.epck{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.epo{width:32px;height:32px;border:2px solid transparent;border-radius:7px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.epo:hover{background:var(--pl);border-color:var(--p);transform:scale(1.1)}.epo.sel{background:var(--pl);border-color:var(--p)}
+.gops{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px}
+.go{width:40px;height:40px;border-radius:8px;cursor:pointer;border:3px solid transparent;transition:all .2s}
+.go:hover{transform:scale(1.1)}.go.sel{border-color:var(--p);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--p)}
+.kpi{display:flex;gap:6px;align-items:center;margin-bottom:5px}.kpi input{flex:1}
+.orow{display:flex;gap:7px;align-items:center;margin-bottom:5px}
+.orow input[type=radio]{flex-shrink:0;accent-color:var(--p)}
+.lwrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#1e1b4b,#4c1d95)}
+.lcard{background:#fff;border-radius:18px;padding:36px 32px;width:100%;max-width:370px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.lico{font-size:2.8rem;margin-bottom:12px}.lcard h2{font-size:1.25rem;font-weight:700;color:#1e1b4b;margin-bottom:5px}
+.lcard>p{font-size:.83rem;color:#6b7280;margin-bottom:22px;font-family:'Sarabun',sans-serif}
+.lf{text-align:left;margin-bottom:12px}
+.lf label{font-size:.8rem;font-weight:600;color:#374151;display:block;margin-bottom:4px}
+.lf input{width:100%;padding:9px 13px;border:1px solid #e5e7eb;border-radius:9px;font-family:'Prompt',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s}
+.lf input:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+.lerr{background:#fee2e2;color:#991b1b;padding:8px 13px;border-radius:8px;font-size:.8rem;margin-bottom:11px;display:none}
+.lbtn{width:100%;padding:10px;background:var(--p);color:#fff;border:none;border-radius:10px;font-family:'Prompt',sans-serif;font-size:.92rem;font-weight:600;cursor:pointer;transition:all .2s}
+.lbtn:hover{opacity:.87}
+.scrd{background:#fff;border-radius:12px;border:1px solid #e5e7eb;padding:20px;margin-bottom:14px}
+.scrd h3{font-size:.92rem;font-weight:700;color:#1e1b4b;margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid #f3f4f6}
+.crow{display:flex;align-items:center;gap:9px}
+.crow input[type=color]{width:36px;height:32px;border:1px solid #e5e7eb;border-radius:7px;cursor:pointer;padding:2px}
+.crow span{font-size:.78rem;color:#6b7280}
+.es{text-align:center;padding:42px 20px;color:#9ca3af}.es .ei{font-size:2.3rem;margin-bottom:9px}
+.setup-steps{text-align:left;background:#f8f7ff;border-radius:10px;padding:14px 18px;margin-bottom:14px}
+.setup-steps li{font-size:.8rem;color:#374151;margin-bottom:6px;line-height:1.5}
+.setup-steps code{background:#ede9fe;color:var(--p);padding:1px 6px;border-radius:4px;font-size:.76rem}
+.toc{position:fixed;top:66px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:6px;pointer-events:none}
+.tst{background:#1e1b4b;color:#fff;padding:10px 15px;border-radius:10px;font-size:.83rem;box-shadow:0 8px 24px rgba(0,0,0,.2);animation:sir .3s ease;display:flex;align-items:center;gap:6px}
+@keyframes sir{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.tst.success{border-left:4px solid #10b981}.tst.error{border-left:4px solid #ef4444}.tst.info{border-left:4px solid #60a5fa}
+.cmmodal .modal{max-width:350px}
+.cmbd{text-align:center;padding:26px 20px}
+.cmico{font-size:2.6rem;margin-bottom:9px}.cmmsg{font-size:.9rem;color:#374151}
+@media(max-width:640px){.hero h1{font-size:1.5rem}.aside{width:185px}.fr2{grid-template-columns:1fr}}
+    @media print{nav,footer,#mfooter,.mdb,.lnav{display:none!important}.inner{max-width:100%;padding:0}}
+    .sc:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.07);transition:all .2s}
+    .kp{animation:fi .3s ease both}
+    .kp:nth-child(2){animation-delay:.05s}.kp:nth-child(3){animation-delay:.1s}.kp:nth-child(4){animation-delay:.15s}
+    .qopt:focus{outline:none;border-color:var(--p)}
+    .badge-green-sm{background:#d1fae5;color:#065f46;font-size:.7rem;padding:2px 7px;border-radius:18px;display:inline-block}
+    .pulse{animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+</style>
+</head>
+<body>
+<div class="toc" id="toc"></div>
+<div class="loader-ov" id="ldr"><div class="spin"></div><div style="font-size:.9rem;color:var(--sec)" id="ldrtxt">กำลังโหลด...</div></div>
+
+<!-- LOGIN -->
+<div id="page-login" style="display:none" aria-hidden="true">
+  <div class="lwrap"><div class="lcard">
+    <div class="lico">🔐</div><h2>Admin Panel</h2><p>ComClass Management System</p>
+    <div class="lerr" id="lerr"></div>
+    <div class="lf"><label>ชื่อผู้ใช้</label><input type="text" id="lu" placeholder="Admin" autocomplete="username"></div>
+    <div class="lf"><label>รหัสผ่าน</label><input type="password" id="lp" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="lbtn" onclick="doLogin()">🔓 เข้าสู่ระบบ</button>
+    <p style="font-size:.72rem;color:#9ca3af;margin-top:12px" id="lhint">💾 Local Mode — Admin: Admin | Pass: Admin123</p>
+    <button onclick="nav('home')" style="margin-top:10px;background:none;border:none;color:#9ca3af;font-size:.78rem;cursor:pointer;font-family:'Prompt',sans-serif">← กลับหน้าเว็บ</button>
+  </div></div>
+</div>
+
+<!-- NAV -->
+<nav id="mnav">
+  <div class="nb" onclick="nav('home')"><span>💻</span><span id="ntitle">ComClass</span></div><div id="gas-indicator" style="display:none;margin-left:8px;padding:2px 8px;border-radius:10px;font-size:.68rem;font-weight:600;background:#d1fae5;color:#065f46">🔗 GAS</div>
+  <div class="nl">
+    <button class="nbt nbg" onclick="nav('home')">🏠 หน้าแรก</button>
+    <button class="nbt nbg" onclick="nav('progress')">📈 ความก้าวหน้า</button>
+    <button class="nbt nbp" onclick="goAdmin()">⚙️ Admin</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <span class="he">🎓</span>
+    <h1 id="htitle">เรียนคอมพิวเตอร์ สนุก ง่าย ได้ผลจริง!</h1>
+    <p>เว็บไซต์สื่อการสอนวิชาคอมพิวเตอร์ ระดับมัธยมศึกษา</p>
+    <p style="margin-top:4px;font-size:.8rem;color:#9ca3af">โดย <span id="hteach" style="color:var(--p);font-weight:600">ครูคอม</span></p>
+    <div class="htags">
+      <span class="tag" style="background:#ede9fe;color:var(--p)">📖 <span id="hcnt">0</span> รายวิชา</span>
+      <span class="tag" style="background:#fce7f3;color:#db2777">🎬 วิดีโอประกอบ</span>
+      <span class="tag" style="background:#dbeafe;color:#2563eb">✅ ติดตามความก้าวหน้า</span>
+    </div>
+  </div>
+  <div class="sec"><div class="st">📚 รายวิชาทั้งหมด</div><div class="cgrid" id="cgrid"></div></div>
+</div>
+
+<!-- COURSE -->
+<div id="page-course" class="page">
+  <div class="bc" id="bc-course"></div>
+  <div class="inner">
+    <div class="banner" id="cb">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:7px">
+        <span id="cemi" style="font-size:2rem"></span><div><h1 id="ctit"></h1><p id="clvl" style="font-size:.78rem;opacity:.75"></p></div>
+      </div>
+      <p id="cdesc" style="font-size:.83rem;opacity:.87;font-family:'Sarabun',sans-serif"></p>
+    </div>
+    <div class="psumm" id="cpsumm"></div>
+    <div style="font-size:.92rem;font-weight:700;margin-bottom:11px">📋 หน่วยการเรียนรู้</div>
+    <div class="ulist" id="ulist"></div>
+  </div>
+</div>
+
+<!-- LESSON -->
+<div id="page-lesson" class="page">
+  <div class="bc" id="bc-lesson"></div>
+  <div class="inner">
+    <div class="lbanner" id="lb"><div class="lbl" id="lclabel"></div><div class="lbt" id="ltitle"></div><div class="lbs" id="lsub"></div></div>
+    <div id="larea"></div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="page-quiz" class="page">
+  <div class="bc" id="bc-quiz"></div>
+  <div class="inner">
+    <div class="lbanner" id="qb"><div class="lbl" id="qcl"></div><div class="lbt" id="qtit"></div></div>
+    <div id="qarea"></div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div id="page-progress" class="page">
+  <div class="inner" style="max-width:1000px">
+    <div style="font-size:1.35rem;font-weight:800;color:var(--p);margin-bottom:18px">📈 ความก้าวหน้าของฉัน</div>
+    <div class="srow" id="pstats"></div>
+    <div class="pgrid" id="pgrid"></div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="page-admin" class="page">
+  <div class="awrap">
+    <div class="aside">
+      <div class="ashd"><h2>⚙️ Admin Panel</h2><p id="aside-user">ComClass Management</p></div>
+      <nav class="anav">
+        <div class="asep">ภาพรวม</div>
+        <div class="ani active" onclick="switchA('dash')" data-ap="dash">📊 Dashboard</div>
+        <div class="asep">เนื้อหา</div>
+        <div class="ani" onclick="switchA('courses')" data-ap="courses">📚 รายวิชา</div>
+        <div class="ani" onclick="switchA('units')" data-ap="units">📋 หน่วยการเรียน</div>
+        <div class="ani" onclick="switchA('quiz')" data-ap="quiz">❓ Quiz</div>
+        <div class="asep">ระบบ</div>
+        <div class="ani" onclick="switchA('gassetup')" data-ap="gassetup">🔗 เชื่อม Google Sheet</div>
+        <div class="ani" onclick="switchA('settings')" data-ap="settings">🎨 ตั้งค่า</div>
+        <div class="asep"></div>
+        <div class="ani" onclick="nav('home')" style="color:rgba(255,255,255,.38)">🏠 กลับหน้าเว็บ</div>
+        <div class="ani" onclick="aLogout()" style="color:rgba(255,100,100,.7)">🚪 ออกจากระบบ</div>
+      </nav>
+    </div>
+    <div class="amain"><div class="acontent">
+
+      <!-- DASHBOARD -->
+      <div id="ap-dash" class="apage active">
+        <div class="ahdr"><div><h1>📊 Dashboard</h1><p>ภาพรวมระบบ</p></div>
+          <button class="btn bsec bsm" onclick="syncFromGAS()">🔄 Sync GAS</button>
+        </div>
+        <div id="dsbar"></div>
+        <div class="sgrid" id="dstats"></div>
+        <div class="tw">
+          <div class="ttb"><div style="font-weight:600;color:#1e1b4b">📚 รายวิชา</div><button class="btn bsm bpri" onclick="switchA('courses')">จัดการ →</button></div>
+          <table><thead><tr><th>รายวิชา</th><th>ระดับ</th><th>หน่วย</th><th>Quiz</th></tr></thead><tbody id="dtable"></tbody></table>
+        </div>
+      </div>
+
+      <!-- COURSES -->
+      <div id="ap-courses" class="apage">
+        <div class="ahdr"><div><h1>📚 รายวิชา</h1></div><button class="btn bpri" onclick="openCM(null)">＋ เพิ่มรายวิชา</button></div>
+        <div id="csbar"></div>
+        <div class="tw">
+          <div class="ttb"><input type="text" class="tsr" placeholder="🔍 ค้นหา..." oninput="rCT(this.value)"><span id="ccnt" style="font-size:.76rem;color:#9ca3af"></span></div>
+          <table><thead><tr><th>ไอคอน</th><th>ชื่อ</th><th>ระดับ</th><th>หน่วย</th><th>สี</th><th></th></tr></thead><tbody id="ctbody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- UNITS -->
+      <div id="ap-units" class="apage">
+        <div class="ahdr"><div><h1>📋 หน่วยการเรียน</h1></div></div>
+        <div style="margin-bottom:13px"><select class="fc2" style="max-width:295px" onchange="loadUA(this.value)" id="usel"><option value="">-- เลือกรายวิชา --</option></select></div>
+        <div id="uarea"><div class="es"><div class="ei">📋</div><p>เลือกรายวิชา</p></div></div>
+      </div>
+
+      <!-- QUIZ ADMIN -->
+      <div id="ap-quiz" class="apage">
+        <div class="ahdr"><div><h1>❓ จัดการ Quiz</h1></div></div>
+        <div style="display:flex;gap:11px;margin-bottom:13px;flex-wrap:wrap">
+          <div style="flex:1;min-width:155px"><label style="font-size:.8rem;font-weight:600;display:block;margin-bottom:4px">รายวิชา</label><select class="fc2" onchange="loadQC(this.value)" id="qcsel"><option value="">-- เลือก --</option></select></div>
+          <div style="flex:1;min-width:155px"><label style="font-size:.8rem;font-weight:600;display:block;margin-bottom:4px">หน่วย</label><select class="fc2" onchange="loadQU(this.value)" id="qusel" disabled><option value="">-- เลือก --</option></select></div>
+        </div>
+        <div id="qadmin"><div class="es"><div class="ei">❓</div><p>เลือกรายวิชาและหน่วย</p></div></div>
+      </div>
+
+      <!-- GAS SETUP -->
+      <div id="ap-gassetup" class="apage">
+        <div class="ahdr"><div><h1>🔗 เชื่อมต่อ Google Apps Script</h1><p>จัดเก็บข้อมูลบน Google Sheets</p></div></div>
+        <div class="scrd">
+          <h3>📋 ขั้นตอนการตั้งค่า GAS</h3>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+            <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:#f8f7ff;border-radius:9px">
+              <div style="width:24px;height:24px;border-radius:50%;background:#7c3aed;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0">1</div>
+              <div style="font-size:.82rem">เปิด <a href="https://script.google.com" target="_blank" style="color:var(--p);font-weight:600">script.google.com</a> → <b>New Project</b> → ลบโค้ดเดิม → วางโค้ดจากไฟล์ <code style="background:#ede9fe;color:#7c3aed;padding:1px 5px;border-radius:4px">Code.gs</code></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:#f8f7ff;border-radius:9px">
+              <div style="width:24px;height:24px;border-radius:50%;background:#7c3aed;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0">2</div>
+              <div style="font-size:.82rem"><b>Deploy</b> → <b>New Deployment</b> → Type: <b>Web App</b><br>Execute as: <b>Me</b> | Who has access: <b>Anyone</b> ✅ → Deploy</div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;padding:10px;background:#f8f7ff;border-radius:9px">
+              <div style="width:24px;height:24px;border-radius:50%;background:#7c3aed;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0">3</div>
+              <div style="font-size:.82rem">Copy <b>Web App URL</b> → วางด้านล่าง → กด <b>ทดสอบ</b> → ต้องเห็น ✅ → กด <b>บันทึก</b></div>
+            </div>
+          </div>
+          <div class="fg">
+            <label>Web App URL</label>
+            <div style="display:flex;gap:6px">
+              <input type="text" class="fc2" id="gas-url" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1">
+              <button class="btn bsec bsm" onclick="testGAS()" style="white-space:nowrap">🧪 ทดสอบ</button>
+            </div>
+          </div>
+          <div id="gas-result" style="margin-bottom:10px;font-size:.82rem"></div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <button class="btn bpri" onclick="saveGASUrl()">💾 บันทึก URL</button>
+            <button class="btn bsec" onclick="syncFromGAS()">🔄 ดึงข้อมูล GAS</button>
+            <button class="btn bsec" onclick="pushToGAS()">⬆️ ส่งข้อมูลไป GAS</button>
+            <button class="btn bdan bsm" onclick="clearGASUrl()">✕ ล้าง</button>
+          </div>
+        </div>
+        <div class="scrd">
+          <h3>📊 สถานะ</h3>
+          <div id="gas-status" style="font-size:.85rem;color:#6b7280;font-family:'Sarabun',sans-serif;margin-bottom:12px">ตรวจสอบ...</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn bsec bsm" onclick="syncFromGAS()">🔄 ดึงข้อมูล GAS → Local</button>
+            <button class="btn bpri bsm" onclick="pushToGAS()">⬆️ ส่งข้อมูล Local → GAS</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="ap-settings" class="apage">
+        <div class="ahdr"><div><h1>🎨 ตั้งค่า</h1></div><button class="btn bpri" onclick="saveS()">💾 บันทึก</button></div>
+        <div class="scrd"><h3>🏷️ ทั่วไป</h3>
+          <div class="fg"><label>ชื่อเว็บ</label><input type="text" class="fc2" id="st"></div>
+          <div class="fg"><label>Hero Text</label><input type="text" class="fc2" id="sh"></div>
+          <div class="fg"><label>ชื่อครู</label><input type="text" class="fc2" id="ste"></div>
+        </div>
+        <div class="scrd"><h3>🎨 สีธีม</h3>
+          <div class="fg"><label>สีหลัก</label><div class="crow"><input type="color" id="sp" oninput="document.getElementById('spv').textContent=this.value"><span id="spv"></span></div></div>
+          <div class="fg"><label>สีพื้นหลัง</label><div class="crow"><input type="color" id="sbg" oninput="document.getElementById('sbgv').textContent=this.value"><span id="sbgv"></span></div></div>
+        </div>
+        <div class="scrd"><h3>🔐 รหัสผ่าน Admin</h3>
+          <div class="fg"><label>รหัสใหม่ (ว่าง=ไม่เปลี่ยน)</label><input type="password" class="fc2" id="snp"></div>
+          <div class="fg"><label>ยืนยันรหัสผ่าน</label><input type="password" class="fc2" id="snp2"></div>
+        </div>
+        <div class="scrd"><h3>💾 สำรองและกู้คืนข้อมูล</h3>
+          <p style="font-size:.8rem;color:#6b7280;margin-bottom:11px;font-family:'Sarabun',sans-serif">Export ข้อมูลทั้งหมดเป็น JSON หรือ Import จากไฟล์ที่สำรองไว้</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+            <button class="btn bpri" onclick="exportJSON()">⬇️ Export JSON</button>
+            <button class="btn bsec" onclick="importJSON()">⬆️ Import JSON</button>
+          </div>
+          <p style="font-size:.75rem;color:#9ca3af;font-family:'Sarabun',sans-serif">แนะนำ Export ไว้สำรองข้อมูลก่อน Reset</p>
+        </div>
+        <div class="scrd"><h3>⚠️ รีเซ็ต</h3>
+          <p style="font-size:.8rem;color:#6b7280;margin-bottom:11px">รีเซ็ตทุกอย่างกลับค่าเริ่มต้น</p>
+          <button class="btn bdan" onclick="confReset()">🗑️ รีเซ็ตข้อมูลทั้งหมด</button>
+        </div>
+        <div class="scrd"><h3>💾 สำรอง / กู้คืนข้อมูล</h3>
+          <p style="font-size:.8rem;color:#6b7280;margin-bottom:12px;font-family:'Sarabun',sans-serif">Export ข้อมูลทั้งหมดเป็น JSON หรือ Import กลับมา</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn bpri" onclick="exportJSON()">⬇️ Export JSON</button>
+            <button class="btn bsec" onclick="importJSON()">⬆️ Import JSON</button>
+          </div>
+        </div>
+      </div>
+
+    </div></div>
+  </div>
+</div>
+
+<footer id="mfooter" style="text-align:center;padding:18px;border-top:1px solid #fde68a;font-size:.8rem;color:#9ca3af;font-family:'Sarabun',sans-serif">
+  💜 สร้างด้วยใจ โดย <span id="fteach" style="color:var(--p);font-weight:600">ครูคอม</span> | ComClass © 2025
+</footer>
+
+<!-- MODALS -->
+<div class="mov" id="m-course">
+  <div class="modal"><div class="mhd"><h2 id="mct">เพิ่มรายวิชา</h2><button class="mcl" onclick="closeM('m-course')">✕</button></div>
+  <div class="mbd"><input type="hidden" id="mcid">
+    <div class="fr2"><div class="fg"><label>ชื่อรายวิชา *</label><input type="text" class="fc2" id="mcn"></div><div class="fg"><label>ระดับ *</label><input type="text" class="fc2" id="mcl"></div></div>
+    <div class="fg"><label>คำอธิบาย</label><textarea class="fc2" id="mcd"></textarea></div>
+    <div class="fg"><label>Emoji</label><div class="epck" id="mcep"><input type="hidden" id="mce"></div></div>
+    <div class="fg"><label>สีการ์ด</label><div class="gops" id="mcgp"><input type="hidden" id="mcg"></div></div>
+  </div>
+  <div class="mft"><button class="btn bsec" onclick="closeM('m-course')">ยกเลิก</button><button class="btn bpri" onclick="saveCourse()">💾 บันทึก</button></div></div>
+</div>
+
+<div class="mov" id="m-unit">
+  <div class="modal" style="max-width:640px"><div class="mhd"><h2 id="mut">เพิ่มหน่วย</h2><button class="mcl" onclick="closeM('m-unit')">✕</button></div>
+  <div class="mbd"><input type="hidden" id="mucid"><input type="hidden" id="muidx" value="-1">
+    <div class="fr2"><div class="fg"><label>ชื่อหน่วย *</label><input type="text" class="fc2" id="mun"></div><div class="fg"><label>ไอคอน</label><input type="text" class="fc2" id="muico" style="font-size:1.1rem;text-align:center" placeholder="📖"></div></div>
+    <div class="fg"><label>ไอคอนด่วน</label><div class="epck" id="muep" style="max-height:76px;overflow-y:auto"></div></div>
+    <div class="fg"><label>สรุปเนื้อหา *</label><textarea class="fc2" id="musum"></textarea></div>
+    <div class="fg"><label>ลิงก์วิดีโอ YouTube Embed</label><input type="text" class="fc2" id="muvid" placeholder="https://www.youtube.com/embed/..."><small>Share → Embed → copy src=""</small></div>
+    <div class="fg"><label>ประเด็นสำคัญ</label><div id="mukps"></div><button class="btn bsec bsm" style="margin-top:5px" onclick="addKP()">＋ เพิ่ม</button></div>
+    <div class="fg"><label>ผังขั้นตอน (คั่นด้วย " → ")</label><input type="text" class="fc2" id="muflow" placeholder="ขั้น 1 → ขั้น 2 → ขั้น 3"></div>
+  </div>
+  <div class="mft"><button class="btn bsec" onclick="closeM('m-unit')">ยกเลิก</button><button class="btn bpri" onclick="saveUnit()">💾 บันทึก</button></div></div>
+</div>
+
+<div class="mov" id="m-q">
+  <div class="modal" style="max-width:620px"><div class="mhd"><h2 id="mqt">เพิ่มคำถาม</h2><button class="mcl" onclick="closeM('m-q')">✕</button></div>
+  <div class="mbd"><input type="hidden" id="mqcid"><input type="hidden" id="mquid"><input type="hidden" id="mqqidx" value="-1">
+    <div class="fg"><label>คำถาม *</label><textarea class="fc2" id="mqq" placeholder="ถามอะไร..."></textarea></div>
+    <div class="fg"><label>ตัวเลือก (Radio = ข้อถูก)</label><div id="mqopts"></div><button class="btn bsec bsm" style="margin-top:5px" onclick="addQO()">＋ ตัวเลือก</button></div>
+    <div class="fg"><label>คำอธิบายเฉลย</label><textarea class="fc2" id="mqex" placeholder="อธิบายว่าทำไมถูก..."></textarea></div>
+  </div>
+  <div class="mft"><button class="btn bsec" onclick="closeM('m-q')">ยกเลิก</button><button class="btn bpri" onclick="saveQ()">💾 บันทึก</button></div></div>
+</div>
+
+<div class="mov cmmodal" id="m-conf">
+  <div class="modal"><div class="cmbd"><div class="cmico" id="confico">⚠️</div><div class="cmmsg" id="confmsg"></div></div>
+  <div class="mft"><button class="btn bsec" onclick="closeM('m-conf')">ยกเลิก</button><button class="btn bdan" id="confok">ยืนยัน</button></div></div>
+</div>
+<script>
+const GR=['linear-gradient(135deg,#f472b6,#c084fc)','linear-gradient(135deg,#60a5fa,#a78bfa)','linear-gradient(135deg,#34d399,#3b82f6)','linear-gradient(135deg,#fbbf24,#f97316)','linear-gradient(135deg,#f87171,#fb923c)','linear-gradient(135deg,#e879f9,#f472b6)','linear-gradient(135deg,#2dd4bf,#6366f1)','linear-gradient(135deg,#fb7185,#f43f5e)','linear-gradient(135deg,#4ade80,#22c55e)','linear-gradient(135deg,#38bdf8,#0ea5e9)','linear-gradient(135deg,#a78bfa,#6d28d9)','linear-gradient(135deg,#fcd34d,#f59e0b)'];
+const CE=['📚','🎨','🧠','🚀','🌱','🔧','🖌️','🌐','💻','⚙️','📊','🎓','🔬','💡','🌟'];
+const UE=['📖','📚','📋','📊','📈','📝','✏️','💡','💻','🖥️','⚙️','🔧','🔩','🔍','🌐','📱','🎨','🖌️','✒️','📸','🎬','🎤','🎯','🏗️','⭐','🚀','🧠','🌱','🔬','🛡️','🗺️','✍️','🧪','🤖'];
+const FC=['#7c3aed','#2563eb','#059669','#d97706','#dc2626','#9333ea','#0891b2','#be185d','#0f766e'];
+const ADMIN_USER='Admin', ADMIN_PASS='Admin123';
+const DS={siteTitle:'ComClass',heroHeading:'เรียนคอมพิวเตอร์ สนุก ง่าย ได้ผลจริง!',teacherName:'ครูคอม',primaryColor:'#7c3aed',bgColor:'#fefce8',adminUser:'Admin',adminPass:'Admin123'};
+
+const SEED=[
+  {id:'canva3',title:'Canva ม.3',level:'มัธยมศึกษาปีที่ 3',emoji:'🎨',gradient:GR[0],desc:'เรียนรู้การออกแบบสื่อมัลติมีเดียด้วย Canva อย่างสร้างสรรค์',units:[
+    {name:'พื้นฐานมัลติมีเดีย',icon:'📺',summary:'ทำความรู้จักมัลติมีเดีย ประเภทของสื่อ ภาพ เสียง วิดีโอ แอนิเมชัน',keyPoints:['มัลติมีเดียคืออะไร?','ประเภท: ข้อความ ภาพ เสียง วิดีโอ','หลักการออกแบบสื่อดิจิทัล','ตัวอย่างในชีวิตจริง'],flowchart:['ข้อความ → ภาพนิ่ง → ภาพเคลื่อนไหว → เสียง → วิดีโอ → สื่อผสม'],videoUrl:'',quiz:[{question:'มัลติมีเดียประกอบด้วยสิ่งใดบ้าง?',options:['ข้อความและภาพเท่านั้น','ข้อความ ภาพ เสียง วิดีโอ และแอนิเมชัน','เสียงและวิดีโอเท่านั้น','ภาพนิ่งเท่านั้น'],answer:1,explain:'มัลติมีเดียประกอบด้วย ข้อความ ภาพนิ่ง เสียง วิดีโอ และแอนิเมชัน'},{question:'ข้อใดไม่ใช่มัลติมีเดีย?',options:['ภาพเคลื่อนไหว','เสียงดนตรี','สูตรคณิตศาสตร์','วิดีโอ'],answer:2,explain:'สูตรคณิตศาสตร์ไม่ใช่มัลติมีเดีย'}]},
+    {name:'ออกแบบสื่อ',icon:'✏️',summary:'หลักการออกแบบ CRAP: Contrast Repetition Alignment Proximity',keyPoints:['หลักการ CRAP','Color Theory','Layout','Typography'],flowchart:['กำหนดเป้าหมาย → วิเคราะห์ → Sketch → ออกแบบ → ตรวจสอบ'],videoUrl:'',quiz:[{question:'CRAP ย่อมาจากอะไร?',options:['Color Repetition Alignment Proximity','Contrast Repetition Alignment Proximity','Contrast Red Alignment Purple','Color Resolution Art Pixel'],answer:1,explain:'CRAP=Contrast,Repetition,Alignment,Proximity'}]},
+    {name:'ใช้ Canva',icon:'🖥️',summary:'Template Element ส่งออก PNG PDF MP4',keyPoints:['สมัคร Canva','ส่วนประกอบหน้าจอ','Template/Element','ส่งออกไฟล์'],flowchart:['สมัคร → Template → แก้ไข → Element → ส่งออก'],videoUrl:'',quiz:[]},
+    {name:'Presentation',icon:'📊',summary:'ออกแบบงานนำเสนอด้วย Canva',keyPoints:['โครงสร้างสไลด์','Template','Animation','เคล็ดลับ'],flowchart:['วางแผน → Template → ใส่ข้อมูล → ตกแต่ง → ซ้อม → นำเสนอ'],videoUrl:'',quiz:[]},
+    {name:'Infographic',icon:'📈',summary:'สร้างอินโฟกราฟิกสรุปข้อมูลเป็นภาพ',keyPoints:['Infographic คืออะไร','ประเภท Statistical Timeline','เทคนิคจัดข้อมูล','สร้างด้วย Canva'],flowchart:['รวบรวม → จัดกลุ่ม → เลือกรูปแบบ → ออกแบบ → ตรวจ'],videoUrl:'',quiz:[]},
+    {name:'สื่อผสม',icon:'🎬',summary:'สร้างวิดีโอสั้น ตัดต่อ Canva Video',keyPoints:['วิดีโอสั้น Canva','เสียง ข้อความ เอฟเฟกต์','Timeline','ส่งออก MP4'],flowchart:['Storyboard → ถ่ายทำ → ตัดต่อ → เอฟเฟกต์ → ส่งออก'],videoUrl:'',quiz:[]},
+    {name:'โครงงาน',icon:'🏗️',summary:'ทำโครงงาน Multimedia',keyPoints:['5 ขั้นตอนโครงงาน','วางแผน','สร้างผลงาน','ปรับปรุง'],flowchart:['ตั้งหัวข้อ → วางแผน → ลงมือ → ทดสอบ → ปรับ'],videoUrl:'',quiz:[]},
+    {name:'นำเสนอ',icon:'🎤',summary:'นำเสนอผลงาน ฝึกทักษะการสื่อสาร',keyPoints:['เทคนิคพูด','จัดสไลด์','ตอบคำถาม','ประเมิน'],flowchart:['เตรียม → ซ้อม → นำเสนอ → ตอบ → ประเมิน'],videoUrl:'',quiz:[]}
+  ]},
+  {id:'cs5',title:'วิทยาการคำนวณ ม.5',level:'มัธยมศึกษาปีที่ 5',emoji:'🧠',gradient:GR[1],desc:'แนวคิดเชิงคำนวณ เขียนโปรแกรม วิเคราะห์ข้อมูล',units:[
+    {name:'แนวคิดเชิงคำนวณ',icon:'💡',summary:'Decomposition Pattern Abstraction Algorithm',keyPoints:['Decomposition','Pattern Recognition','Abstraction','Algorithm Design'],flowchart:['ปัญหา → แยกส่วน → หาแบบรูป → สรุป → ออกแบบ → แก้'],videoUrl:'',quiz:[{question:'Decomposition หมายถึง?',options:['การหาแบบรูป','การแยกปัญหาใหญ่เป็นส่วนย่อย','การเขียนโค้ด','การทดสอบ'],answer:1,explain:'Decomposition คือการแบ่งปัญหาใหญ่เป็นย่อย'}]},
+    {name:'Algorithm',icon:'⚙️',summary:'Flowchart Pseudocode Sorting Searching',keyPoints:['Algorithm','Flowchart','Pseudocode','Sorting/Searching'],flowchart:['เริ่ม → รับข้อมูล → ประมวลผล → แสดงผล → จบ'],videoUrl:'',quiz:[{question:'สี่เหลี่ยมใน Flowchart แทนอะไร?',options:['การตัดสินใจ','การประมวลผล','จุดเริ่ม/จบ','I/O'],answer:1,explain:'สี่เหลี่ยมแทนขั้นตอนประมวลผล'}]},
+    {name:'Programming Python',icon:'💻',summary:'ตัวแปร เงื่อนไข ลูป ฟังก์ชัน',keyPoints:['ตัวแปรและชนิด','if-elif-else','for while','def'],flowchart:['เขียน → คอมไพล์ → ทดสอบ → Debug → ปรับ'],videoUrl:'',quiz:[{question:'Python ใช้คำสั่งใดกำหนดฟังก์ชัน?',options:['function','def','func','define'],answer:1,explain:'Python ใช้ def'}]},
+    {name:'Data',icon:'📊',summary:'จัดการข้อมูล วิเคราะห์ Visualization',keyPoints:['ประเภทข้อมูล','เก็บรวบรวม','วิเคราะห์','Visualization'],flowchart:['เก็บ → ทำความสะอาด → วิเคราะห์ → แสดงผล → สรุป'],videoUrl:'',quiz:[]},
+    {name:'Design Thinking',icon:'🎯',summary:'กระบวนการคิดเชิงออกแบบ 5 ขั้น',keyPoints:['Empathize','Define','Ideate','Prototype','Test'],flowchart:['Empathize → Define → Ideate → Prototype → Test'],videoUrl:'',quiz:[{question:'ขั้นแรก Design Thinking?',options:['Define','Ideate','Empathize','Prototype'],answer:2,explain:'Empathize = เข้าใจผู้ใช้'}]},
+    {name:'Digital Ethics',icon:'🛡️',summary:'จริยธรรมดิจิทัล พ.ร.บ.คอม ความปลอดภัย',keyPoints:['จริยธรรมดิจิทัล','พ.ร.บ.คอม 2560','ความปลอดภัย','Digital Footprint'],flowchart:['รู้กฎ → ปฏิบัติ → ปกป้อง → พลเมืองดิจิทัล'],videoUrl:'',quiz:[{question:'พ.ร.บ.คอมปัจจุบันปีใด?',options:['2550','2558','2560','2562'],answer:2,explain:'พ.ร.บ.คอม ฉบับที่ 2 ปี 2560'}]}
+  ]},
+  {id:'cs6',title:'วิทยาการคำนวณ ม.6',level:'มัธยมศึกษาปีที่ 6',emoji:'🚀',gradient:GR[2],desc:'แนวคิดขั้นสูง โครงงาน เทคโนโลยีกับสังคม',units:[
+    {name:'แนวคิดขั้นสูง',icon:'🔬',summary:'Recursion Optimization Time Complexity',keyPoints:['Recursion','Optimization','Time Complexity','Problem Solving'],flowchart:['ปัญหา → วิเคราะห์ → เลือกวิธี → ประเมิน'],videoUrl:'',quiz:[]},
+    {name:'Algorithm ขั้นสูง',icon:'⚙️',summary:'Merge/Quick Sort Binary Search Graph DP',keyPoints:['Merge/Quick Sort','Binary Search','Graph','Dynamic Programming'],flowchart:['เลือก Algo → Complexity → เปรียบเทียบ → เลือก'],videoUrl:'',quiz:[{question:'Binary Search ต้องการข้อมูลแบบ?',options:['สุ่ม','เรียงลำดับแล้ว','ซ้ำ','ว่าง'],answer:1,explain:'ต้องการข้อมูลเรียงลำดับแล้ว'}]},
+    {name:'โครงงาน',icon:'🏗️',summary:'พัฒนาโครงงานตามกระบวนการวิทยาศาสตร์',keyPoints:['เลือกหัวข้อ','วางแผน','เขียนโปรแกรม','ทดสอบ'],flowchart:['ศึกษา → วางแผน → พัฒนา → ทดสอบ → สรุป'],videoUrl:'',quiz:[]},
+    {name:'เทคโนโลยีกับสังคม',icon:'🌍',summary:'AI IoT Big Data Blockchain',keyPoints:['AI','IoT','Big Data','ผลกระทบสังคม'],flowchart:['เทคโนโลยี → ผลกระทบ → วิเคราะห์ → ปรับตัว'],videoUrl:'',quiz:[{question:'IoT ย่อมาจาก?',options:['Internet of Technology','Internet of Things','Integrated Online Tools','Input Output Terminal'],answer:1,explain:'IoT = Internet of Things'}]},
+    {name:'นำเสนอ',icon:'🎤',summary:'นำเสนอโครงงานอย่างมืออาชีพ',keyPoints:['เตรียมสไลด์','ฝึกพูด','ตอบคำถาม','ประเมิน'],flowchart:['เตรียม → นำเสนอ → ตอบ → Feedback'],videoUrl:'',quiz:[]}
+  ]},
+  {id:'cs2',title:'วิทยาการคำนวณ ม.2',level:'มัธยมศึกษาปีที่ 2',emoji:'🌱',gradient:GR[3],desc:'เริ่มต้นแนวคิดเชิงคำนวณ เขียนโปรแกรมเบื้องต้น',units:[
+    {name:'แนวคิด',icon:'💡',summary:'แนวคิดเชิงคำนวณพื้นฐาน',keyPoints:['แยกปัญหา','หาแบบรูป','คิดเป็นระบบ','ตัวอย่างจริง'],flowchart:['ปัญหา → แยกส่วน → หาแบบรูป → แก้'],videoUrl:'',quiz:[]},
+    {name:'Algorithm',icon:'⚙️',summary:'Flowchart Pseudocode เบื้องต้น',keyPoints:['Flowchart','Pseudocode','Decision','Loop'],flowchart:['เริ่ม → ป้อน → ประมวล → แสดง → จบ'],videoUrl:'',quiz:[]},
+    {name:'Programming',icon:'💻',summary:'Scratch / Python เบื้องต้น',keyPoints:['Scratch/Python','ตัวแปร','เงื่อนไข','ลูป'],flowchart:['เขียน → รัน → ดูผล → แก้'],videoUrl:'',quiz:[{question:'Scratch ใช้สำหรับ?',options:['แก้ไขรูป','เขียนโปรแกรมแบบบล็อก','ทำเว็บ','ตัดวิดีโอ'],answer:1,explain:'Scratch เขียนโค้ดแบบลากวาง'}]},
+    {name:'Data',icon:'📊',summary:'เก็บข้อมูล จัดเรียง กราฟ',keyPoints:['ข้อมูล','เก็บรวบรวม','จัดเรียง','กราฟ'],flowchart:['เก็บ → จัดเรียง → กราฟ → วิเคราะห์'],videoUrl:'',quiz:[]},
+    {name:'Design',icon:'🎯',summary:'Design Thinking ออกแบบแอปง่ายๆ',keyPoints:['Design Thinking','เข้าใจผู้ใช้','ไอเดีย','ต้นแบบ'],flowchart:['เข้าใจ → กำหนด → ไอเดีย → ต้นแบบ → ทดสอบ'],videoUrl:'',quiz:[]},
+    {name:'โครงงาน',icon:'🏗️',summary:'โครงงาน Scratch/Python',keyPoints:['เลือกหัวข้อ','วางแผน','สร้าง','นำเสนอ'],flowchart:['เลือก → วางแผน → สร้าง → ทดสอบ → นำเสนอ'],videoUrl:'',quiz:[]}
+  ]},
+  {id:'repair5',title:'ซ่อมบำรุงคอม ม.5',level:'มัธยมศึกษาปีที่ 5',emoji:'🔧',gradient:GR[4],desc:'Hardware ประกอบเครื่อง ติดตั้ง OS แก้ปัญหา',units:[
+    {name:'พื้นฐานคอม',icon:'📖',summary:'องค์ประกอบ Input Process Output Storage',keyPoints:['องค์ประกอบ','IPO','Storage','ประเภทคอม'],flowchart:['Input → Process → Output → Storage'],videoUrl:'',quiz:[{question:'CPU ย่อมาจาก?',options:['Central Processing Unit','Computer Power Unit','Central Power Unit','Computer Processor Unit'],answer:0,explain:'CPU = Central Processing Unit'},{question:'RAM คือ?',options:['เก็บถาวร','หน่วยความจำชั่วคราว','กราฟิก','จ่ายไฟ'],answer:1,explain:'RAM หน่วยความจำชั่วคราว'}]},
+    {name:'Hardware',icon:'🖥️',summary:'CPU RAM Mainboard PSU GPU',keyPoints:['CPU','RAM','Mainboard','GPU/PSU'],flowchart:['CPU ↔ RAM ↔ Mainboard ↔ Storage ↔ GPU'],videoUrl:'',quiz:[{question:'GPU ทำหน้าที่?',options:['ประมวลผลทั่วไป','ประมวลผลกราฟิก','เก็บข้อมูล','จ่ายไฟ'],answer:1,explain:'GPU ประมวลผลกราฟิก'}]},
+    {name:'ประกอบเครื่อง',icon:'🔩',summary:'ขั้นตอนประกอบคอมพิวเตอร์',keyPoints:['เลือกอุปกรณ์','ลำดับประกอบ','สายไฟ','ทดสอบ POST'],flowchart:['เลือก → CPU → RAM → Board → PSU → GPU → ทดสอบ'],videoUrl:'',quiz:[]},
+    {name:'ติดตั้ง OS',icon:'💿',summary:'ติดตั้ง Windows / Linux',keyPoints:['OS คืออะไร','ติดตั้ง Windows','Linux','ตั้งค่าหลัง'],flowchart:['USB → Boot → ติดตั้ง → ตั้งค่า → Update → Driver'],videoUrl:'',quiz:[{question:'POST ย่อมาจาก?',options:['Power On Self Test','Program OS Test','Processor Output Test','Primary OS Test'],answer:0,explain:'POST = Power On Self Test'}]},
+    {name:'Maintenance',icon:'🧹',summary:'ดูแลรักษา Backup',keyPoints:['ทำความสะอาด','อัพเดท','Disk','Backup'],flowchart:['สะอาด → อัพเดท → จัดไฟล์ → Backup → ตรวจ'],videoUrl:'',quiz:[]},
+    {name:'Troubleshoot',icon:'🔍',summary:'วิเคราะห์และแก้ปัญหา',keyPoints:['อาการ','วิเคราะห์','เครื่องมือ','แก้ไข'],flowchart:['ปัญหา → อาการ → สาเหตุ → แก้ → ทดสอบ'],videoUrl:'',quiz:[]},
+    {name:'Network',icon:'🌐',summary:'LAN WiFi IP Address',keyPoints:['เครือข่าย','LAN/WAN/WiFi','IP Address','อุปกรณ์'],flowchart:['อุปกรณ์ → Switch/Router → สาย/WiFi → Internet'],videoUrl:'',quiz:[{question:'IP Address คือ?',options:['รหัสโปรแกรม','ที่อยู่บนเครือข่าย','ชื่อเครือข่าย','รหัสผ่าน'],answer:1,explain:'IP = ที่อยู่อุปกรณ์บนเครือข่าย'}]},
+    {name:'Project',icon:'🏗️',summary:'โครงงานซ่อมบำรุง',keyPoints:['เลือก','วางแผน','ปฏิบัติ','สรุป'],flowchart:['เลือก → วางแผน → ปฏิบัติ → บันทึก → นำเสนอ'],videoUrl:'',quiz:[]}
+  ]},
+  {id:'graphic4',title:'กราฟิกดีไซน์ ม.4',level:'มัธยมศึกษาปีที่ 4',emoji:'🖌️',gradient:GR[5],desc:'Photoshop Illustrator กราฟิกมืออาชีพ',units:[
+    {name:'Design Principle',icon:'🎨',summary:'CRAP Color Theory Typography',keyPoints:['CRAP','Color Wheel','Typography','Layout'],flowchart:['หลักการ → สี → ฟอนต์ → Layout → ผลงาน'],videoUrl:'',quiz:[{question:'สีหลัก (Primary)?',options:['แดง น้ำเงิน เขียว','แดง เหลือง น้ำเงิน','ส้ม ม่วง เขียว','ขาว ดำ เทา'],answer:1,explain:'สีหลัก = แดง เหลือง น้ำเงิน'}]},
+    {name:'Photoshop',icon:'📸',summary:'Layer Selection เครื่องมือพื้นฐาน',keyPoints:['ส่วนประกอบ','เครื่องมือ','Layer','Selection'],flowchart:['เปิด → Layer → แก้ไข → ส่งออก'],videoUrl:'',quiz:[]},
+    {name:'แต่งภาพ',icon:'✨',summary:'Retouch ปรับสี ลบพื้นหลัง',keyPoints:['Curves/Levels','Retouch','ลบ BG','Effect'],flowchart:['ต้นฉบับ → ปรับสี → Retouch → ลบ BG → Effect → ส่งออก'],videoUrl:'',quiz:[]},
+    {name:'Illustrator',icon:'✒️',summary:'Pen Tool Shape Vector',keyPoints:['Vector vs Raster','Pen Tool','Shape Tool','Pathfinder'],flowchart:['สร้าง → Shape → Pen → สี → ส่งออก'],videoUrl:'',quiz:[{question:'Vector ต่างจาก Raster?',options:['ขยายได้ไม่แตก','ใช้ pixel','ไฟล์เล็กกว่า','พิมพ์ดีกว่า'],answer:0,explain:'Vector ขยายได้ไม่จำกัด ไม่เสียคุณภาพ'}]},
+    {name:'Logo Design',icon:'⭐',summary:'ออกแบบโลโก้',keyPoints:['หลักการ Logo','Sketch','ดิจิทัล','ส่งออก'],flowchart:['แบรนด์ → Sketch → ดิจิทัล → ปรับ → ส่งออก'],videoUrl:'',quiz:[]},
+    {name:'Social Media',icon:'📱',summary:'Banner Poster สื่อโซเชียล',keyPoints:['ขนาดแต่ละแพล็ต','Banner','Poster','นามบัตร'],flowchart:['กำหนดขนาด → ออกแบบ → ตรวจ → ส่งออก'],videoUrl:'',quiz:[]},
+    {name:'Project',icon:'🏗️',summary:'โครงงานกราฟิก',keyPoints:['เลือกโจทย์','วางแผน','สร้าง','นำเสนอ'],flowchart:['เลือก → วางแผน → ออกแบบ → ปรับ → นำเสนอ'],videoUrl:'',quiz:[]}
+  ]},
+  {id:'web6',title:'พัฒนาเว็บ ม.6',level:'มัธยมศึกษาปีที่ 6',emoji:'🌐',gradient:GR[6],desc:'สร้างเว็บด้วย AI และ Canva Web UX/UI',units:[
+    {name:'Web + AI',icon:'🤖',summary:'พัฒนาเว็บยุคใหม่ด้วย AI',keyPoints:['ภาพรวมเว็บ','AI ช่วยโค้ด','AI สร้างเนื้อหา','เครื่องมือ AI'],flowchart:['วางแผน → AI → สร้าง → ตรวจ'],videoUrl:'',quiz:[{question:'AI ช่วยเว็บได้?',options:['เฉพาะสี','โค้ด เนื้อหา ออกแบบ','เฉพาะโค้ด','ไม่ได้'],answer:1,explain:'AI ช่วยได้หลายด้าน'}]},
+    {name:'UX/UI',icon:'🎯',summary:'Wireframe Prototype Design',keyPoints:['UX vs UI','หลักการ UX','Wireframe','Prototype'],flowchart:['วิจัย → Wireframe → Prototype → Test → ปรับ'],videoUrl:'',quiz:[{question:'UX ย่อมาจาก?',options:['User Experience','User Extension','Unique Experience','Unit Exchange'],answer:0,explain:'UX = User Experience'}]},
+    {name:'Site Map',icon:'🗺️',summary:'วางโครงสร้างเว็บ',keyPoints:['Site Map','โครงสร้างหน้า','Content','Navigation'],flowchart:['เป้าหมาย → Site Map → เนื้อหา → Navigation'],videoUrl:'',quiz:[]},
+    {name:'AI Content',icon:'✍️',summary:'AI สร้างเนื้อหา Prompt',keyPoints:['AI ข้อความ','AI รูป','Prompt','ตรวจสอบ'],flowchart:['วางแผน → Prompt → AI → ตรวจ → แก้'],videoUrl:'',quiz:[]},
+    {name:'Canva Web',icon:'🖥️',summary:'Canva Website Builder',keyPoints:['Canva Website','Template','แก้ไข','เผยแพร่'],flowchart:['Template → แก้ → ตรวจ → เผยแพร่'],videoUrl:'',quiz:[]},
+    {name:'Testing',icon:'🧪',summary:'Responsive ลิงก์ ความเร็ว',keyPoints:['Responsive','ลิงก์/ปุ่ม','ความเร็ว','Feedback'],flowchart:['Desktop → Mobile → ลิงก์ → ความเร็ว → แก้'],videoUrl:'',quiz:[]},
+    {name:'Project',icon:'🏗️',summary:'โครงงานเว็บ',keyPoints:['เลือกหัวข้อ','วางแผน','สร้าง','ทดสอบ'],flowchart:['วางแผน → ออกแบบ → สร้าง → ทดสอบ → เผยแพร่'],videoUrl:'',quiz:[]},
+    {name:'Presentation',icon:'🎤',summary:'นำเสนอเว็บโครงงาน',keyPoints:['เตรียม','Demo','ตอบ','ประเมิน'],flowchart:['สไลด์ → Demo → นำเสนอ → ตอบ → ประเมิน'],videoUrl:'',quiz:[]}
+  ]}
+];
+
+// ── STATE ──
+let D={courses:[],settings:{...DS},progress:{}};
+let aOK=false,aToken=null,aUser='',gasUrl='';
+let QS={cid:null,ui:null,qs:[],cur:0,score:0,ans:[]};
+const SESSION_KEY=(()=>{let k=localStorage.getItem('cc_sk');if(!k){k='s'+Math.random().toString(36).slice(2);localStorage.setItem('cc_sk',k);}return k;})();
+
+// ── STORAGE ──
+function loadLocal(){try{const s=localStorage.getItem('cc_v6');if(s){D=JSON.parse(s);if(!D.settings)D.settings={...DS};if(!D.progress)D.progress={};}else{D={courses:JSON.parse(JSON.stringify(SEED)),settings:{...DS},progress:{}};saveLocal();}gasUrl=localStorage.getItem('cc_gas')||'';aToken=localStorage.getItem('cc_tok')||null;}catch(e){D={courses:JSON.parse(JSON.stringify(SEED)),settings:{...DS},progress:{}};}}
+function saveLocal(){localStorage.setItem('cc_v6',JSON.stringify(D));}
+function C(){return D.courses||[];}
+function S(){return D.settings||DS;}
+function gp(cid,ui){return(D.progress[cid]||{})[ui]||false;}
+function sp(cid,ui,v){if(!D.progress[cid])D.progress[cid]={};D.progress[cid][ui]=v;saveLocal();if(gasUrl)pushProg();}
+function gcp(cid){const c=C().find(x=>x.id===cid);if(!c)return{d:0,t:0};return{d:Object.values(D.progress[cid]||{}).filter(Boolean).length,t:(c.units||[]).length};}
+function gqd(cid,ui){return D.progress['q_'+cid+'_'+ui]||null;}
+function sqd(cid,ui,sc,tot){D.progress['q_'+cid+'_'+ui]={score:sc,total:tot,pct:Math.round(sc/tot*100)};saveLocal();}
+
+// ── GAS ──
+async function gasCall(action,body={},load=false){
+  if(!gasUrl)throw new Error('ยังไม่ได้ตั้งค่า GAS URL');
+  if(load)showLdr('กำลังเชื่อมต่อ GAS...');
+  try{
+    // GAS Web App รองรับ GET ได้ดีกว่า POST (ไม่มี CORS preflight)
+    const params=new URLSearchParams({action});
+    if(aToken&&aToken!=='local')params.append('token',aToken);
+    // ส่ง body ผ่าน query string สำหรับ action ที่ไม่ซับซ้อน
+    const isReadOnly=['ping','getSettings','getCourses','getProgress','verifyToken'].includes(action);
+    let j;
+    if(isReadOnly){
+      const r=await fetch(gasUrl+'?'+params.toString());
+      j=await r.json();
+    }else{
+      // POST สำหรับ write operations — ส่งเป็น text/plain เพื่อหลีกเลี่ยง preflight
+      const p={action,...body};
+      if(aToken&&aToken!=='local')p.token=aToken;
+      const r=await fetch(gasUrl,{method:'POST',body:JSON.stringify(p)});
+      j=await r.json();
+    }
+    if(!j.ok)throw new Error((j.data&&j.data.error)||j.error||'GAS ตอบกลับผิดรูปแบบ');
+    return j.data;
+  }finally{if(load)hideLdr();}
+}
+async function testGAS(){
+  const url=document.getElementById('gas-url').value.trim();
+  if(!url){toast('กรอก URL ก่อน','error');return;}
+  const res=document.getElementById('gas-result');
+  res.innerHTML='<span style="color:#6b7280">⏳ กำลังทดสอบ...</span>';
+  try{
+    // ใช้ GET + action=ping (ง่ายที่สุด ไม่มี CORS issue)
+    const r=await fetch(url+'?action=ping',{method:'GET'});
+    const j=await r.json();
+    if(j.ok&&j.data&&(j.data.msg||j.data.version)){
+      res.innerHTML='<span style="color:#10b981">✅ เชื่อมต่อสำเร็จ! GAS v'+( j.data.version||'?')+'</span>';
+    } else {
+      res.innerHTML='<span style="color:#ef4444">❌ GAS ตอบแต่ผิดรูปแบบ: '+JSON.stringify(j)+'</span>';
+    }
+  }catch(e){
+    res.innerHTML='<span style="color:#ef4444">❌ เชื่อมต่อไม่ได้: '+e.message+'<br><small style="color:#9ca3af">ตรวจสอบว่า Deploy → Who has access: Anyone</small></span>';
+  }
+}
+function saveGASUrl(){const url=document.getElementById('gas-url').value.trim();if(!url){toast('กรอก URL','error');return;}gasUrl=url;localStorage.setItem('cc_gas',url);toast('บันทึก GAS URL ✅','success');updateGASStatus();}
+function clearGASUrl(){gasUrl='';localStorage.removeItem('cc_gas');localStorage.removeItem('cc_tok');aToken=null;toast('ล้าง GAS แล้ว — ใช้ Local','info');updateGASStatus();}
+function updateGASStatus(){
+  const bars=['dsbar','csbar'].map(id=>document.getElementById(id)).filter(Boolean);
+  const st=document.getElementById('gas-status');
+  const gasUrlInput=document.getElementById('gas-url');if(gasUrlInput)gasUrlInput.value=gasUrl;
+  const hint=document.getElementById('lhint');
+  if(gasUrl){
+    const h=`<div class="db-bar ok"><div class="db-dot"></div>🔗 Google Sheets — ${gasUrl.slice(0,50)}...</div>`;
+    bars.forEach(b=>b.innerHTML=h);
+    if(st)st.innerHTML='<span style="color:#10b981">✅ เชื่อมต่อ GAS</span><br><small style="color:#9ca3af">'+gasUrl+'</small>';
+    if(hint)hint.textContent='🔗 GAS Mode — ใช้รหัสผ่านจาก Google Sheet';
+  const gi=document.getElementById('gas-indicator');
+  if(gi)gi.style.display='inline-block';
+  }else{
+    const h='<div class="db-bar local"><div class="db-dot"></div>💾 Local Mode — ข้อมูลบันทึกใน localStorage</div>';
+    bars.forEach(b=>b.innerHTML=h);
+    if(st)st.innerHTML='<span style="color:#f59e0b">⚠️ ยังไม่เชื่อม GAS</span>';
+    if(hint)hint.textContent='💾 Local — Admin: Admin | Pass: Admin123';
+  const gi=document.getElementById('gas-indicator');
+  if(gi)gi.style.display='none';
+  }
+}
+async function syncFromGAS(){
+  if(!gasUrl){toast('ยังไม่เชื่อม GAS URL','error');return;}
+  try{
+    showLdr('กำลัง Sync จาก Google Sheets...');
+    // ใช้ GET เพื่อหลีกเลี่ยง CORS
+    const [r1,r2]=await Promise.all([
+      fetch(gasUrl+'?action=getCourses').then(r=>r.json()),
+      fetch(gasUrl+'?action=getSettings').then(r=>r.json())
+    ]);
+    if(r1.ok&&r1.data&&Array.isArray(r1.data)&&r1.data.length){
+      D.courses=r1.data;
+      toast('Sync สำเร็จ '+D.courses.length+' รายวิชา ✅','success');
+    } else {
+      toast('GAS ไม่มีข้อมูลรายวิชา — ใช้ข้อมูล Local','info');
+    }
+    if(r2.ok&&r2.data&&Object.keys(r2.data).length){
+      D.settings={...DS,...r2.data};
+    }
+    saveLocal();applyS();rHome();rDash();
+  }catch(e){toast('Sync ล้มเหลว: '+e.message,'error');}
+  finally{hideLdr();}
+}
+async function pushToGAS(){
+  if(!gasUrl){toast('ยังไม่เชื่อม GAS URL','error');return;}
+  if(!aOK){toast('กรุณา Login ก่อน','error');return;}
+  try{
+    showLdr('กำลังส่งข้อมูลไป Google Sheets...');
+    let ok=0,fail=0;
+    // 1. บันทึก settings
+    try{await gasCall('saveSettings',{settings:D.settings});ok++;}catch(e){fail++;console.warn('settings:',e);}
+    // 2. บันทึกทีละ course
+    for(const c of D.courses){
+      try{
+        await gasCall('saveCourse',{course:{id:c.id,title:c.title,level:c.level,emoji:c.emoji,gradient:c.gradient,desc:c.desc}});
+        // บันทึก units
+        for(let i=0;i<(c.units||[]).length;i++){
+          try{await gasCall('saveUnit',{courseId:c.id,unitIndex:i,unit:c.units[i]});ok++;}
+          catch(e){fail++;console.warn('unit:',e);}
+        }
+        ok++;
+      }catch(e){fail++;console.warn('course:',e);}
+    }
+    if(fail===0){toast('ส่งข้อมูลสำเร็จทั้งหมด ✅ ('+ok+' รายการ)','success');}
+    else{toast('ส่งแล้ว '+ok+' รายการ, ล้มเหลว '+fail+' รายการ','info');}
+  }catch(e){toast('ล้มเหลว: '+e.message,'error');}
+  finally{hideLdr();}
+}
+async function pushProg(){if(!gasUrl)return;try{await gasCall('saveProgress',{sessionKey:SESSION_KEY,progress:D.progress});}catch(_){}}
+
+// ── AUTH ──
+async function doLogin(){
+  const u=document.getElementById('lu').value.trim();
+  const p=document.getElementById('lp').value;
+  const lerr=document.getElementById('lerr');lerr.style.display='none';
+  if(gasUrl){
+    try{
+      showLdr('ตรวจสอบ Login...');
+      // ใช้ GET + query string สำหรับ login (หลีกเลี่ยง CORS)
+      const qs=new URLSearchParams({action:'login',username:u,password:p}).toString();
+      const res=await fetch(gasUrl+'?'+qs);
+      const j=await res.json();
+      if(j.ok&&j.data&&j.data.token){
+        aToken=j.data.token;aUser=j.data.username;
+        localStorage.setItem('cc_tok',aToken);aOK=true;hideLdr();loginOK();return;
+      }
+      throw new Error((j.data&&j.data.error)||'Login ไม่สำเร็จ');
+    }catch(e){hideLdr();console.warn('GAS login failed:',e.message);}
+  }
+  const su=S().adminUser||ADMIN_USER,sp2=S().adminPass||ADMIN_PASS;
+  if(u===su&&p===sp2){aOK=true;aUser=u;aToken='local';loginOK();}
+  else{lerr.textContent='ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';lerr.style.display='block';document.getElementById('lp').value='';}
+}
+function loginOK(){document.getElementById('aside-user').textContent='👤 '+aUser;toast('ยินดีต้อนรับ '+aUser+' 🎉','success');nav('admin');}
+function aLogout(){aOK=false;aToken=null;aUser='';localStorage.removeItem('cc_tok');nav('home');toast('ออกจากระบบแล้ว','success');}
+function goAdmin(){if(aOK)nav('admin');else{updateGASStatus();nav('login');}}
+
+// ── NAV ──
+function nav(v,a=null,b=null){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-login').style.display='none';
+  const isLogin=v==='login', isAdmin=v==='admin';
+  document.getElementById('mfooter').style.display=(isAdmin||isLogin)?'none':'block';
+  document.getElementById('mnav').style.display=isLogin?'none':'flex';
+  if(isLogin){document.getElementById('page-login').style.display='block';return;}
+  const el=document.getElementById('page-'+(isAdmin?'admin':v));
+  if(el)el.classList.add('active');
+  window.scrollTo(0,0);
+  const m={home:rHome,course:()=>rCourse(a),lesson:()=>rLesson(a,b),quiz:()=>startQuiz(a,b),progress:rProgress,admin:()=>{if(!aOK){goAdmin();return;}switchA('dash');}};
+  m[v]?.();
+}
+
+// ── HOME ──
+function rHome(){
+  const s=S();
+  document.getElementById('htitle').textContent=s.heroHeading;
+  document.getElementById('hteach').textContent=s.teacherName;
+  document.getElementById('ntitle').textContent=s.siteTitle;
+  document.getElementById('fteach').textContent=s.teacherName;
+  document.title=s.siteTitle;
+  const cl=C();document.getElementById('hcnt').textContent=cl.length;
+  const g=document.getElementById('cgrid');g.innerHTML='';
+  if(!cl.length){g.innerHTML='<div class="es" style="grid-column:1/-1"><div class="ei">📚</div><p>ยังไม่มีรายวิชา</p></div>';return;}
+  cl.forEach(c=>{
+    const{d,t}=gcp(c.id);const pct=t?Math.round(d/t*100):0;
+    const chips=(c.units||[]).slice(0,4).map(u=>'<span class="uc">'+u.icon+' '+u.name+'</span>').join('');
+    const more=c.units.length>4?'<span class="uc ucm">+'+( c.units.length-4)+'</span>':'';
+    const card=document.createElement('div');card.className='cc';card.onclick=()=>nav('course',c.id);
+    card.innerHTML='<div class="cch" style="background:'+c.gradient+'"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:1.85rem">'+c.emoji+'</span><div><h3>'+c.title+'</h3><p>'+c.level+'</p></div></div></div><div class="ccb"><p class="ccd">'+c.desc+'</p><div class="uchips">'+chips+more+'</div><div class="cpbar"><div class="cplb"><span>ความก้าวหน้า</span><span>'+d+'/'+t+'</span></div><div class="cpb"><div class="cpf" style="width:'+pct+'%"></div></div></div></div>';
+    g.appendChild(card);
+  });
+}
+
+// ── COURSE ──
+function rCourse(cid){
+  const c=C().find(x=>x.id===cid);if(!c){nav('home');return;}
+  document.getElementById('bc-course').innerHTML='<a onclick="nav(\'home\')">หน้าแรก</a><span class="bcs">›</span><span>'+c.title+'</span>';
+  document.getElementById('cb').style.background=c.gradient;
+  document.getElementById('cemi').textContent=c.emoji;document.getElementById('ctit').textContent=c.title;
+  document.getElementById('clvl').textContent=c.level;document.getElementById('cdesc').textContent=c.desc;
+  const{d,t}=gcp(cid);const pct=t?Math.round(d/t*100):0;
+  const r=43,ci=2*Math.PI*r;
+  document.getElementById('cpsumm').innerHTML='<div class="pring"><svg width="58" height="58" viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+r+'" fill="none" stroke="#f3f4f6" stroke-width="10"/><circle cx="50" cy="50" r="'+r+'" fill="none" stroke="'+S().primaryColor+'" stroke-width="10" stroke-dasharray="'+ci+'" stroke-dashoffset="'+(ci-(pct/100)*ci)+'" stroke-linecap="round"/></svg><div class="pringt">'+pct+'%</div></div><div class="pinf"><h3>เรียนแล้ว '+d+'/'+t+' หน่วย</h3><p>'+(pct===100?'🎉 จบครบแล้ว!':pct>0?'กำลังเรียนอยู่ 💪':'เริ่มเรียนได้เลย!')+'</p></div>';
+  const ul=document.getElementById('ulist');ul.innerHTML='';
+  (c.units||[]).forEach((u,i)=>{
+    const done=gp(cid,i),qd=gqd(cid,i);
+    const el=document.createElement('div');el.className='ui'+(done?' done':'');el.onclick=()=>nav('lesson',cid,i);
+    el.innerHTML='<div class="uico">'+u.icon+'</div><div class="uinf"><span class="ubadge">หน่วยที่ '+(i+1)+'</span><div class="uname">'+u.name+'</div><div class="usum">'+u.summary+'</div></div><div style="flex-shrink:0;text-align:right">'+(done?'<span style="color:#10b981;font-size:.8rem">✅</span>':'')+(qd?'<div style="font-size:.68rem;color:#6b7280;margin-top:2px">Quiz '+qd.pct+'%</div>':'')+'</div><div style="color:#d1d5db;margin-left:4px">›</div>';
+    ul.appendChild(el);
+  });
+}
+
+// ── LESSON ──
+function rLesson(cid,ui){
+  const c=C().find(x=>x.id===cid);if(!c){nav('home');return;}
+  const u=c.units[ui];if(!u){nav('course',cid);return;}
+  const pc=S().primaryColor;
+  document.getElementById('bc-lesson').innerHTML='<a onclick="nav(\'home\')">หน้าแรก</a><span class="bcs">›</span><a onclick="nav(\'course\',\''+cid+'\')">'+c.title+'</a><span class="bcs">›</span><span>'+u.name+'</span>';
+  document.getElementById('lb').style.background=c.gradient;
+  document.getElementById('lclabel').textContent=c.emoji+' '+c.title;
+  document.getElementById('ltitle').textContent=u.icon+' '+u.name;
+  document.getElementById('lsub').textContent='หน่วยที่ '+(ui+1)+' จาก '+c.units.length+' หน่วย';
+  const area=document.getElementById('larea');area.innerHTML='';
+  const isDone=gp(cid,ui);
+  const db=document.createElement('button');db.className='mdb '+(isDone?'done':'undone');
+  db.textContent=isDone?'✅ เรียนแล้ว — คลิกเพื่อยกเลิก':'📌 ทำเครื่องหมายว่าเรียนแล้ว';
+  db.onclick=()=>{sp(cid,ui,!gp(cid,ui));rLesson(cid,ui);};area.appendChild(db);
+  area.innerHTML+='<div class="ccard"><h3>📝 สรุปเนื้อหา</h3><p style="font-family:\'Sarabun\',sans-serif;color:#6b7280;line-height:1.75">'+u.summary+'</p></div>';
+  let kp='<div class="ccard"><h3>🎯 ประเด็นสำคัญ</h3>';
+  (u.keyPoints||[]).forEach((k,i)=>{kp+='<div class="kp"><div class="kpn" style="background:'+pc+'">'+(i+1)+'</div><div class="kpt">'+k+'</div></div>';});
+  area.innerHTML+=kp+'</div>';
+  if(u.flowchart&&u.flowchart[0]){const steps=u.flowchart[0].split(' → ');let fc='<div class="ccard"><h3>📊 ผังขั้นตอน</h3><div class="fc">';steps.forEach((s,i)=>{fc+='<div class="fcs" style="background:'+FC[i%FC.length]+'">'+s.trim()+'</div>';if(i<steps.length-1)fc+='<div class="fca">→</div>';});area.innerHTML+=fc+'</div></div>';}
+  let vid='<div class="ccard"><h3>🎬 วิดีโอประกอบ</h3>';
+  if(u.videoUrl&&u.videoUrl.includes('youtube')){vid+='<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden"><iframe src="'+u.videoUrl+'" style="position:absolute;inset:0;width:100%;height:100%;border:none" allowfullscreen></iframe></div>';}
+  else if(u.videoUrl){
+    // รองรับ URL รูปแบบอื่น (ไม่ใช่ embed)
+    const embedUrl=u.videoUrl.replace('watch?v=','embed/').replace('youtu.be/','www.youtube.com/embed/');
+    vid+='<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden"><iframe src="'+embedUrl+'" style="position:absolute;inset:0;width:100%;height:100%;border:none" allowfullscreen></iframe></div>';
+  }else{vid+='<div class="vidph"><div style="font-size:2.3rem;margin-bottom:7px">▶️</div><p style="font-weight:600">'+u.name+'</p><p style="font-size:.78rem;opacity:.6;margin-top:2px">เพิ่มวิดีโอใน Admin → หน่วยการเรียน</p></div>';}
+  area.innerHTML+=vid+'</div>';
+  const qd=gqd(cid,ui);
+  if(u.quiz&&u.quiz.length){area.innerHTML+='<div class="ccard" style="text-align:center"><h3>❓ ทดสอบความรู้</h3><p style="font-size:.83rem;color:#6b7280;font-family:\'Sarabun\',sans-serif;margin-bottom:13px">'+u.quiz.length+' ข้อ'+(qd?' — ล่าสุด: '+qd.score+'/'+qd.total+' ('+qd.pct+'%)':'')+'</p><button class="btn bpri" style="font-size:.88rem;padding:9px 22px" onclick="nav(\'quiz\',\''+cid+'\','+ui+')">🚀 เริ่มทำ Quiz</button></div>';}
+  const prev=ui>0?c.units[ui-1]:null,next=ui<c.units.length-1?c.units[ui+1]:null;
+  area.innerHTML+='<div class="lnav">'
+    +(prev?'<button class="lnb lnprev" onclick="nav(\'lesson\',\''+cid+'\','+(ui-1)+')">‹ '+prev.name+'</button>':'<div></div>')
+    +'<button onclick="window.scrollTo({top:0,behavior:\'smooth\'})" style="padding:7px 12px;border-radius:10px;border:none;cursor:pointer;font-family:inherit;font-size:.75rem;background:#f3f4f6;color:#6b7280">⬆ ขึ้นบน</button>'
+    +(next?'<button class="lnb lnnext" onclick="nav(\'lesson\',\''+cid+'\','+(ui+1)+')">'+next.name+' ›</button>':'<div></div>')
+    +'</div>';
+}
+
+// ── QUIZ ──
+function startQuiz(cid,ui){
+  const c=C().find(x=>x.id===cid),u=c&&c.units[ui];
+  if(!u||!u.quiz||!u.quiz.length){nav('lesson',cid,ui);return;}
+  QS={cid,ui,qs:JSON.parse(JSON.stringify(u.quiz)),cur:0,score:0,ans:[]};
+  document.getElementById('bc-quiz').innerHTML='<a onclick="nav(\'lesson\',\''+cid+'\','+ui+')">← กลับบทเรียน</a>';
+  document.getElementById('qb').style.background=c.gradient;
+  document.getElementById('qcl').textContent=c.emoji+' '+c.title;
+  document.getElementById('qtit').textContent='❓ Quiz: '+u.name;
+  rQQ();
+}
+function rQQ(){
+  const{qs,cur,ans}=QS;const area=document.getElementById('qarea');area.innerHTML='';
+  let dots='<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px">';
+  qs.forEach((_,i)=>{let cls='qdot';if(i<ans.length)cls+=ans[i].ok?' ok':' fail';else if(i===cur)cls+=' cur';dots+='<div class="'+cls+'"></div>';});
+  area.innerHTML=dots+'</div>';
+  if(cur>=qs.length){rQResult();return;}
+  const q=qs[cur];
+  let h='<div class="qcard"><div style="font-size:.75rem;color:#9ca3af;margin-bottom:7px">ข้อที่ '+(cur+1)+' / '+qs.length+'</div><div class="qqt">'+q.question+'</div><div class="qopts">';
+  q.options.forEach((o,i)=>{h+='<button class="qopt" id="qo'+i+'" onclick="ansQ('+i+')">'+o+'</button>';});
+  h+='</div><div class="qfb" id="qfb" style="display:none"></div></div>';
+  area.innerHTML+=h;
+}
+function ansQ(idx){
+  const q=QS.qs[QS.cur],ok=idx===q.answer;
+  if(ok)QS.score++;QS.ans.push({idx,ok});
+  q.options.forEach((_,i)=>{const el=document.getElementById('qo'+i);el.disabled=true;if(i===q.answer)el.classList.add('correct');else if(i===idx&&!ok)el.classList.add('wrong');});
+  const fb=document.getElementById('qfb');fb.style.display='block';fb.className='qfb '+(ok?'ok':'fail');fb.textContent=(ok?'✅ ถูกต้อง! ':'❌ ไม่ถูก — ')+(q.explain||'');
+  document.querySelector('.qcard').insertAdjacentHTML('beforeend','<div style="display:flex;justify-content:flex-end;margin-top:11px"><button class="btn bpri" onclick="nextQ()">'+(QS.cur>=QS.qs.length-1?'ดูผลลัพธ์':'ข้อถัดไป →')+'</button></div>');
+}
+function nextQ(){QS.cur++;if(QS.cur>=QS.qs.length)rQResult();else rQQ();}
+function rQResult(){
+  const{cid,ui,score,qs}=QS,tot=qs.length,pct=Math.round(score/tot*100);
+  sqd(cid,ui,score,tot);
+  const e=pct>=80?'🏆':pct>=60?'👍':pct>=40?'😅':'💪',msg=pct>=80?'ยอดเยี่ยมมาก!':pct>=60?'ดีมาก ลองทบทวนอีก':pct>=40?'พยายามต่อไป':'ลองเรียนใหม่แล้วทำอีกครั้ง';
+  document.getElementById('qarea').innerHTML='<div class="qcard" style="text-align:center;padding:32px 20px"><div style="font-size:3.2rem;margin-bottom:9px">'+e+'</div><div style="font-size:2.2rem;font-weight:800;color:var(--p)">'+score+'/'+tot+'</div><div style="font-size:1.7rem;font-weight:700;color:var(--p);margin:3px 0">'+pct+'%</div><p style="color:#6b7280;font-size:.85rem;margin-top:4px">'+msg+'</p><div style="display:flex;gap:9px;justify-content:center;margin-top:18px;flex-wrap:wrap"><button class="btn bsec" onclick="startQuiz(\''+cid+'\','+ui+')">🔄 ทำใหม่</button><button class="btn bpri" onclick="nav(\'lesson\',\''+cid+'\','+ui+')">กลับบทเรียน</button></div></div>';
+}
+
+// ── PROGRESS ──
+function rProgress(){
+  const cl=C();let td=0,tt=0,qc=0,qa=0;
+  cl.forEach(c=>{const{d,t}=gcp(c.id);td+=d;tt+=t;(c.units||[]).forEach((_,i)=>{const q=gqd(c.id,i);if(q){qc++;qa+=q.pct;}});});
+  document.getElementById('pstats').innerHTML='<div class="smin"><div class="smn">'+td+'</div><div class="sml">หน่วยที่เรียน</div></div><div class="smin"><div class="smn">'+tt+'</div><div class="sml">ทั้งหมด</div></div><div class="smin"><div class="smn">'+(tt?Math.round(td/tt*100):0)+'%</div><div class="sml">รวม</div></div><div class="smin"><div class="smn">'+qc+'</div><div class="sml">Quiz ที่ทำ</div></div><div class="smin"><div class="smn">'+(qc?Math.round(qa/qc):'-')+(qc?'%':'')+'</div><div class="sml">คะแนนเฉลี่ย</div></div>';
+  const g=document.getElementById('pgrid');g.innerHTML='';
+  cl.forEach(c=>{
+    const{d,t}=gcp(c.id);const pct=t?Math.round(d/t*100):0;
+    const rows=(c.units||[]).map((u,i)=>{const done=gp(c.id,i),qd=gqd(c.id,i);return'<div style="display:flex;align-items:center;justify-content:space-between;font-size:.76rem;padding:3px 0"><span>'+u.icon+' '+u.name+'</span><div style="display:flex;align-items:center;gap:5px">'+(qd?'<span style="font-size:.68rem;color:#6b7280">'+qd.pct+'%</span>':'')+'<span>'+(done?'✅':'⬜')+'</span></div></div>';}).join('');
+    const card=document.createElement('div');card.className='pcard';
+    card.innerHTML='<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><span style="font-size:1.8rem">'+c.emoji+'</span><div><div style="font-weight:700;font-size:.92rem">'+c.title+'</div><div style="font-size:.73rem;color:var(--sec)">'+c.level+'</div></div></div><div style="display:flex;justify-content:space-between;font-size:.73rem;color:var(--sec);margin-bottom:3px"><span>'+d+'/'+t+' หน่วย</span><span>'+pct+'%</span></div><div class="pb"><div class="pbf" style="width:'+pct+'%;background:var(--p)"></div></div><div style="margin-top:8px">'+rows+'</div>';
+    g.appendChild(card);
+  });
+}
+
+// ── ADMIN ──
+function switchA(p){document.querySelectorAll('.apage').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.ani').forEach(x=>x.classList.remove('active'));document.getElementById('ap-'+p)?.classList.add('active');document.querySelector('[data-ap="'+p+'"]')?.classList.add('active');({dash:rDash,courses:()=>rCT(),units:rUSel,quiz:rQSel,gassetup:()=>updateGASStatus(),settings:loadS})[p]?.();}
+
+function rDash(){
+  updateGASStatus();
+  const cl=C();let tu=0,tq=0;cl.forEach(c=>{tu+=(c.units||[]).length;(c.units||[]).forEach(u=>tq+=(u.quiz||[]).length);});
+  document.getElementById('dstats').innerHTML='<div class="sc"><div class="sci">📚</div><div class="scn">'+cl.length+'</div><div class="scl">รายวิชา</div></div><div class="sc"><div class="sci">📋</div><div class="scn">'+tu+'</div><div class="scl">หน่วย</div></div><div class="sc"><div class="sci">❓</div><div class="scn">'+tq+'</div><div class="scl">คำถาม Quiz</div></div><div class="sc"><div class="sci">🎬</div><div class="scn">'+cl.reduce((s,c)=>s+(c.units||[]).filter(u=>u.videoUrl).length,0)+'</div><div class="scl">มีวิดีโอ</div></div>';
+  document.getElementById('dtable').innerHTML=cl.map(c=>'<tr><td><span style="font-size:1.1rem">'+c.emoji+'</span> '+c.title+'</td><td><span class="badge bbl">'+c.level+'</span></td><td>'+(c.units||[]).length+'</td><td>'+(c.units||[]).reduce((s,u)=>s+(u.quiz||[]).length,0)+'</td></tr>').join('')||'<tr><td colspan="4" style="text-align:center;color:#9ca3af;padding:18px">ไม่มีข้อมูล</td></tr>';
+  // Progress summary
+  const el=document.getElementById('dash-progress-summary');
+  if(el){
+    let td=0,tt=0,qd=0;
+    cl.forEach(c=>{const p=gcp(c.id);td+=p.d;tt+=p.t;(c.units||[]).forEach((_,i)=>{if(gqd(c.id,i))qd++;});});
+    const pct=tt?Math.round(td/tt*100):0;
+    el.innerHTML='<div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px 18px;margin-top:14px"><div style="font-size:.88rem;font-weight:700;color:#1e1b4b;margin-bottom:10px">📈 ความก้าวหน้าของนักเรียน (เซสชันนี้)</div><div style="display:flex;gap:10px;flex-wrap:wrap">'
+      +'<div style="flex:1;min-width:100px;text-align:center;padding:10px;background:#f8f7ff;border-radius:9px"><div style="font-size:1.4rem;font-weight:800;color:#7c3aed">'+td+'</div><div style="font-size:.7rem;color:#6b7280">หน่วยที่เรียน</div></div>'
+      +'<div style="flex:1;min-width:100px;text-align:center;padding:10px;background:#f8f7ff;border-radius:9px"><div style="font-size:1.4rem;font-weight:800;color:#7c3aed">'+pct+'%</div><div style="font-size:.7rem;color:#6b7280">ความก้าวหน้า</div></div>'
+      +'<div style="flex:1;min-width:100px;text-align:center;padding:10px;background:#f8f7ff;border-radius:9px"><div style="font-size:1.4rem;font-weight:800;color:#7c3aed">'+qd+'</div><div style="font-size:.7rem;color:#6b7280">Quiz ที่ทำ</div></div>'
+      +'</div></div>';
+  }
+}
+
+function rCT(f=''){
+  const cl=C().filter(c=>!f||c.title.toLowerCase().includes(f.toLowerCase())||c.level.includes(f));
+  document.getElementById('ccnt').textContent=cl.length+' รายวิชา';
+  document.getElementById('ctbody').innerHTML=cl.map(c=>'<tr><td style="font-size:1.2rem">'+c.emoji+'</td><td><strong>'+c.title+'</strong></td><td><span class="badge bbl">'+c.level+'</span></td><td><span class="badge bpu">'+(c.units||[]).length+' หน่วย</span></td><td><div style="width:28px;height:26px;border-radius:6px;background:'+c.gradient+';display:inline-block"></div></td><td><div class="tda"><button class="btn bsec bsm" onclick="openCM(\''+c.id+'\')">✏️</button><button class="btn bdan bsm" onclick="confDel(\'course\',\''+c.id+'\')">🗑️</button></div></td></tr>').join('')||'<tr><td colspan="6" style="text-align:center;color:#9ca3af;padding:18px">ไม่พบ</td></tr>';
+}
+
+function openCM(id){
+  document.getElementById('mct').textContent=id?'แก้ไขรายวิชา':'เพิ่มรายวิชา';
+  document.getElementById('mcep').innerHTML='<input type="hidden" id="mce">'+CE.map(e=>'<div class="epo" onclick="pickE(\'mce\',\''+e+'\',this)">'+e+'</div>').join('');
+  document.getElementById('mcgp').innerHTML='<input type="hidden" id="mcg">'+GR.map((g,i)=>'<div class="go" style="background:'+g+'" onclick="pickG(\''+g.replace(/'/g,'"')+'\',this)"></div>').join('');
+  if(id){const c=C().find(x=>x.id===id);if(!c)return;document.getElementById('mcid').value=c.id;document.getElementById('mcn').value=c.title;document.getElementById('mcl').value=c.level;document.getElementById('mcd').value=c.desc;document.getElementById('mce').value=c.emoji;document.getElementById('mcg').value=c.gradient;document.querySelectorAll('#mcep .epo').forEach(el=>{if(el.textContent===c.emoji)el.classList.add('sel');});GR.forEach((g,i)=>{if(g===c.gradient)document.querySelectorAll('#mcgp .go')[i]?.classList.add('sel');});}
+  else{['mcid','mcn','mcl','mcd'].forEach(k=>document.getElementById(k).value='');document.getElementById('mce').value='📚';document.getElementById('mcg').value=GR[0];document.querySelectorAll('#mcgp .go')[0]?.classList.add('sel');}
+  openM('m-course');
+}
+function pickE(fid,e,el){document.getElementById(fid).value=e;el.closest('.epck').querySelectorAll('.epo').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');}
+function pickG(g,el){document.getElementById('mcg').value=g;el.closest('.gops').querySelectorAll('.go').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');}
+async function saveCourse(){
+  const n=document.getElementById('mcn').value.trim(),l=document.getElementById('mcl').value.trim();
+  if(!n||!l){toast('กรุณากรอกชื่อและระดับ','error');return;}
+  const id=document.getElementById('mcid').value,cl=C();
+  const dat={title:n,level:l,desc:document.getElementById('mcd').value.trim(),emoji:document.getElementById('mce').value||'📚',gradient:document.getElementById('mcg').value||GR[0]};
+  if(id){const idx=cl.findIndex(c=>c.id===id);if(idx>=0)cl[idx]={...cl[idx],...dat};}else{dat.id='c'+Date.now();cl.push({...dat,units:[]});}
+  D.courses=cl;saveLocal();closeM('m-course');rCT();rDash();
+  if(gasUrl&&aToken){try{await gasCall('saveCourse',{course:{id:dat.id||id,...dat}});toast('บันทึกและ Sync GAS ✅','success');}catch(_){toast('บันทึก Local แล้ว','info');}}else toast(id?'แก้ไขแล้ว ✅':'เพิ่มแล้ว ✅','success');
+}
+
+function rUSel(){const sel=document.getElementById('usel');sel.innerHTML='<option value="">-- เลือกรายวิชา --</option>'+C().map(c=>'<option value="'+c.id+'">'+c.emoji+' '+c.title+'</option>').join('');}
+function loadUA(cid){
+  const area=document.getElementById('uarea');
+  if(!cid){area.innerHTML='<div class="es"><div class="ei">📋</div><p>เลือกรายวิชา</p></div>';return;}
+  const c=C().find(x=>x.id===cid);if(!c)return;
+  let h='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;flex-wrap:wrap;gap:8px"><div style="font-weight:700;color:#1e1b4b">'+c.emoji+' '+c.title+'</div><button class="btn bpri" onclick="openUM(\''+cid+'\',-1)">＋ เพิ่มหน่วย</button></div><div class="tw">';
+  if(!c.units||!c.units.length){h+='<div class="es"><div class="ei">📋</div><p>ยังไม่มีหน่วย</p></div>';}
+  else{h+='<table><thead><tr><th>#</th><th>ไอคอน</th><th>ชื่อ</th><th>วิดีโอ</th><th>Quiz</th><th></th></tr></thead><tbody>';c.units.forEach((u,i)=>{h+='<tr><td>'+(i+1)+'</td><td style="font-size:1.25rem">'+u.icon+'</td><td><strong>'+u.name+'</strong></td><td>'+(u.videoUrl?'<span class="badge bgr">✅</span>':'—')+'</td><td>'+(u.quiz||[]).length+' ข้อ</td><td><div class="tda"><button class="btn bsec bsm" onclick="openUM(\''+cid+'\','+i+')">✏️</button><button class="btn bsec bsm" onclick="mvU(\''+cid+'\','+i+',-1)" '+(i===0?'disabled':'')+'>↑</button><button class="btn bsec bsm" onclick="mvU(\''+cid+'\','+i+',1)" '+(i===c.units.length-1?'disabled':'')+'>↓</button><button class="btn bdan bsm" onclick="confDel(\'unit\',\''+cid+'\','+i+')">🗑️</button></div></td></tr>';});h+='</tbody></table>';}
+  area.innerHTML=h+'</div>';
+}
+function mvU(cid,i,d){const c=C().find(x=>x.id===cid);const ni=i+d;if(ni<0||ni>=c.units.length)return;[c.units[i],c.units[ni]]=[c.units[ni],c.units[i]];saveLocal();loadUA(cid);toast('เรียงลำดับแล้ว','success');}
+function openUM(cid,idx){
+  document.getElementById('mut').textContent=idx>=0?'แก้ไขหน่วย':'เพิ่มหน่วย';
+  document.getElementById('mucid').value=cid;document.getElementById('muidx').value=idx;
+  document.getElementById('muep').innerHTML=UE.map(e=>'<div class="epo" style="width:28px;height:28px;font-size:.95rem" onclick="document.getElementById(\'muico\').value=\''+e+'\'">'+e+'</div>').join('');
+  if(idx>=0){const u=C().find(x=>x.id===cid)?.units?.[idx];if(!u)return;document.getElementById('mun').value=u.name||'';document.getElementById('muico').value=u.icon||'';document.getElementById('musum').value=u.summary||'';document.getElementById('muvid').value=u.videoUrl||'';document.getElementById('muflow').value=(u.flowchart||[''])[0]||'';rKPL(u.keyPoints||[]);}
+  else{['mun','musum','muvid','muflow'].forEach(k=>document.getElementById(k).value='');document.getElementById('muico').value='📖';rKPL(['']);}
+  openM('m-unit');
+}
+function rKPL(pts){document.getElementById('mukps').innerHTML=pts.map((p,i)=>'<div class="kpi"><input type="text" class="fc2" value="'+p+'" placeholder="ประเด็น '+(i+1)+'..."><button class="btn bdan bsm" onclick="this.parentElement.remove()">✕</button></div>').join('');}
+function addKP(){const d=document.getElementById('mukps');const n=d.querySelectorAll('.kpi').length;d.insertAdjacentHTML('beforeend','<div class="kpi"><input type="text" class="fc2" placeholder="ประเด็น '+(n+1)+'..."><button class="btn bdan bsm" onclick="this.parentElement.remove()">✕</button></div>');}
+function getKPs(){return Array.from(document.querySelectorAll('#mukps input')).map(i=>i.value.trim()).filter(Boolean);}
+async function saveUnit(){
+  const n=document.getElementById('mun').value.trim(),s=document.getElementById('musum').value.trim();
+  if(!n||!s){toast('กรอกชื่อและสรุป','error');return;}
+  const cid=document.getElementById('mucid').value,idx=parseInt(document.getElementById('muidx').value);
+  const c=C().find(x=>x.id===cid);if(!c)return;
+  const ud={name:n,icon:document.getElementById('muico').value||'📖',summary:s,videoUrl:document.getElementById('muvid').value.trim(),keyPoints:getKPs(),flowchart:[document.getElementById('muflow').value.trim()].filter(Boolean),quiz:idx>=0?(c.units[idx].quiz||[]):[]};
+  if(idx>=0)c.units[idx]=ud;else{if(!c.units)c.units=[];c.units.push(ud);}
+  saveLocal();closeM('m-unit');loadUA(cid);
+  if(gasUrl&&aToken){try{await gasCall('saveUnit',{courseId:cid,unitIndex:idx>=0?idx:null,unit:ud});toast('บันทึกและ Sync GAS ✅','success');}catch(_){toast('บันทึก Local แล้ว','info');}}else toast(idx>=0?'แก้ไขแล้ว ✅':'เพิ่มแล้ว ✅','success');
+}
+
+function rQSel(){const sel=document.getElementById('qcsel');sel.innerHTML='<option value="">-- เลือก --</option>'+C().map(c=>'<option value="'+c.id+'">'+c.emoji+' '+c.title+'</option>').join('');document.getElementById('qusel').innerHTML='<option value="">-- เลือก --</option>';document.getElementById('qusel').disabled=true;}
+function loadQC(cid){const sel=document.getElementById('qusel');if(!cid){sel.innerHTML='<option value="">-- เลือก --</option>';sel.disabled=true;document.getElementById('qadmin').innerHTML='<div class="es"><div class="ei">❓</div><p>เลือกรายวิชา</p></div>';return;}const c=C().find(x=>x.id===cid);sel.innerHTML='<option value="">-- เลือก --</option>'+(c&&c.units||[]).map((u,i)=>'<option value="'+cid+':'+i+'">'+u.icon+' '+u.name+'</option>').join('');sel.disabled=false;}
+function loadQU(val){
+  if(!val){document.getElementById('qadmin').innerHTML='<div class="es"><div class="ei">❓</div><p>เลือกหน่วย</p></div>';return;}
+  const[cid,uis]=val.split(':');const ui=parseInt(uis);
+  const c=C().find(x=>x.id===cid),u=c&&c.units[ui];if(!u)return;
+  const quiz=u.quiz||[];
+  let h='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;flex-wrap:wrap;gap:8px"><div style="font-weight:700;color:#1e1b4b">'+u.icon+' '+u.name+' — '+quiz.length+' คำถาม</div><button class="btn bpri" onclick="openQM(\''+cid+'\','+ui+',-1)">＋ เพิ่มคำถาม</button></div>';
+  if(!quiz.length){h+='<div class="es"><div class="ei">❓</div><p>ยังไม่มีคำถาม</p></div>';}
+  else{h+=quiz.map((q,i)=>'<div style="background:#fff;border:1px solid #e5e7eb;border-radius:11px;padding:14px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;gap:8px"><div style="flex:1"><div style="font-size:.7rem;color:#9ca3af;margin-bottom:2px">ข้อ '+(i+1)+'</div><div style="font-weight:600;font-size:.87rem">'+q.question+'</div><div style="margin-top:6px;display:flex;flex-direction:column;gap:3px">'+q.options.map((o,j)=>'<div style="font-size:.78rem;display:flex;align-items:center;gap:5px"><span style="width:16px;height:16px;border-radius:50%;background:'+(j===q.answer?'#10b981':'#e5e7eb')+';display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;color:'+(j===q.answer?'#fff':'#6b7280')+';flex-shrink:0">'+(j===q.answer?'✓':j+1)+'</span>'+o+'</div>').join('')+'</div>'+(q.explain?'<div style="font-size:.72rem;color:#6b7280;margin-top:4px">💬 '+q.explain+'</div>':'')+'</div><div class="tda" style="flex-shrink:0"><button class="btn bsec bsm" onclick="openQM(\''+cid+'\','+ui+','+i+')">✏️</button><button class="btn bdan bsm" onclick="confDel(\'question\',\''+cid+'\',['+ui+','+i+'])">🗑️</button></div></div></div>').join('');}
+  document.getElementById('qadmin').innerHTML=h;
+}
+function openQM(cid,ui,qi){
+  document.getElementById('mqt').textContent=qi>=0?'แก้ไขคำถาม':'เพิ่มคำถาม';
+  document.getElementById('mqcid').value=cid;document.getElementById('mquid').value=ui;document.getElementById('mqqidx').value=qi;
+  if(qi>=0){const q=C().find(x=>x.id===cid)?.units?.[ui]?.quiz?.[qi];if(!q)return;document.getElementById('mqq').value=q.question;document.getElementById('mqex').value=q.explain||'';rQOpts(q.options,q.answer);}
+  else{document.getElementById('mqq').value='';document.getElementById('mqex').value='';rQOpts(['','','',''],0);}
+  openM('m-q');
+}
+function rQOpts(opts,ans){document.getElementById('mqopts').innerHTML=opts.map((o,i)=>'<div class="orow"><input type="radio" name="mqans" value="'+i+'" '+(i===ans?'checked':'')+'>   <input type="text" class="fc2" value="'+o+'" placeholder="ตัวเลือก '+(i+1)+'..."><button class="btn bdan bsm" onclick="this.parentElement.remove()">✕</button></div>').join('');}
+function addQO(){const l=document.getElementById('mqopts');const n=l.querySelectorAll('.orow').length;l.insertAdjacentHTML('beforeend','<div class="orow"><input type="radio" name="mqans" value="'+n+'"><input type="text" class="fc2" placeholder="ตัวเลือก '+(n+1)+'..."><button class="btn bdan bsm" onclick="this.parentElement.remove()">✕</button></div>');}
+async function saveQ(){
+  const q=document.getElementById('mqq').value.trim();if(!q){toast('กรอกคำถาม','error');return;}
+  const opts=Array.from(document.querySelectorAll('#mqopts input[type=text]')).map(i=>i.value.trim());
+  if(opts.length<2){toast('ต้องมีอย่างน้อย 2 ตัวเลือก','error');return;}
+  const ansEl=document.querySelector('input[name="mqans"]:checked');
+  const cid=document.getElementById('mqcid').value,ui=parseInt(document.getElementById('mquid').value),qi=parseInt(document.getElementById('mqqidx').value);
+  const c=C().find(x=>x.id===cid),u=c&&c.units[ui];if(!u)return;
+  if(!u.quiz)u.quiz=[];
+  const qd={question:q,options:opts,answer:ansEl?parseInt(ansEl.value):0,explain:document.getElementById('mqex').value.trim()};
+  if(qi>=0)u.quiz[qi]=qd;else u.quiz.push(qd);
+  saveLocal();closeM('m-q');loadQU(cid+':'+ui);
+  if(gasUrl&&aToken){try{await gasCall('saveQuiz',{courseId:cid,unitIndex:ui,quiz:u.quiz});toast('บันทึกและ Sync GAS ✅','success');}catch(_){toast('บันทึก Local แล้ว','info');}}else toast(qi>=0?'แก้ไขแล้ว ✅':'เพิ่มแล้ว ✅','success');
+}
+
+function loadS(){const s=S();document.getElementById('st').value=s.siteTitle||'';document.getElementById('sh').value=s.heroHeading||'';document.getElementById('ste').value=s.teacherName||'';const sp=document.getElementById('sp');sp.value=s.primaryColor||'#7c3aed';document.getElementById('spv').textContent=sp.value;const sb=document.getElementById('sbg');sb.value=s.bgColor||'#fefce8';document.getElementById('sbgv').textContent=sb.value;document.getElementById('snp').value='';document.getElementById('snp2').value='';}
+async function saveS(){
+  const np=document.getElementById('snp').value,np2=document.getElementById('snp2').value;
+  if(np&&np!==np2){toast('รหัสผ่านไม่ตรงกัน','error');return;}
+  D.settings={siteTitle:document.getElementById('st').value||'ComClass',heroHeading:document.getElementById('sh').value||'เรียน',teacherName:document.getElementById('ste').value||'ครูคอม',primaryColor:document.getElementById('sp').value,bgColor:document.getElementById('sbg').value,adminUser:S().adminUser||ADMIN_USER,adminPass:np||S().adminPass||ADMIN_PASS};
+  saveLocal();applyS();
+  // อัปเดต title ทุกส่วน
+  ['ntitle','antitle'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=D.settings.siteTitle||'ComClass';});
+  document.getElementById('fteach').textContent=D.settings.teacherName||'ครูคอม';
+  if(gasUrl&&aToken){try{await gasCall('saveSettings',{settings:D.settings});toast('บันทึกและ Sync GAS ✅','success');}catch(_){toast('บันทึก Local แล้ว','info');}}else toast('บันทึกแล้ว ✅','success');
+}
+function applyS(){const s=S();document.documentElement.style.setProperty('--p',s.primaryColor);document.documentElement.style.setProperty('--bg',s.bgColor);const r=parseInt(s.primaryColor.slice(1,3),16),g=parseInt(s.primaryColor.slice(3,5),16),b=parseInt(s.primaryColor.slice(5,7),16);document.documentElement.style.setProperty('--pl','rgba('+r+','+g+','+b+',.12)');document.body.style.background=s.bgColor;}
+function confReset(){showConf('รีเซ็ตข้อมูลทั้งหมด ไม่สามารถกู้คืน','⚠️',()=>{localStorage.removeItem('cc_v6');localStorage.removeItem('cc_tok');loadLocal();applyS();switchA('dash');toast('รีเซ็ตแล้ว','success');});}
+
+function exportJSON(){
+  const json=JSON.stringify(D,null,2);
+  const blob=new Blob([json],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='comclass_backup_'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();URL.revokeObjectURL(a.href);toast('Export สำเร็จ ✅','success');
+}
+
+function importJSON(){
+  const input=document.createElement('input');input.type='file';input.accept='.json';
+  input.onchange=e=>{
+    const file=e.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try{
+        const imp=JSON.parse(ev.target.result);
+        if(!imp.courses)throw new Error('ไฟล์ JSON ไม่ถูกต้อง (ต้องมี courses)');
+        D=imp;saveLocal();applyS();rHome();switchA('dash');
+        toast('Import สำเร็จ '+D.courses.length+' รายวิชา ✅','success');
+      }catch(err){toast('Import ล้มเหลว: '+err.message,'error');}
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+function confDel(type,id,extra=null){
+  let msg='',fn;
+  if(type==='course'){const c=C().find(x=>x.id===id);msg='ลบรายวิชา "'+c?.title+'"?';fn=async()=>{D.courses=C().filter(c=>c.id!==id);saveLocal();rCT();rDash();if(gasUrl&&aToken)try{await gasCall('deleteCourse',{courseId:id});}catch(_){}toast('ลบแล้ว','success');};}
+  else if(type==='unit'){const c=C().find(x=>x.id===id),u=c&&c.units[extra];msg='ลบหน่วย "'+u?.name+'"?';fn=()=>{c.units.splice(extra,1);saveLocal();loadUA(id);toast('ลบแล้ว','success');};}
+  else if(type==='question'){const c=C().find(x=>x.id===id),u=c&&c.units[extra[0]];msg='ลบคำถามข้อที่ '+(extra[1]+1)+'?';fn=()=>{u.quiz.splice(extra[1],1);saveLocal();loadQU(id+':'+extra[0]);toast('ลบแล้ว','success');};}
+  showConf(msg,'🗑️',fn);
+}
+
+function openM(id){document.getElementById(id).classList.add('open');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.mov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+function showConf(msg,ico,fn){document.getElementById('confmsg').textContent=msg;document.getElementById('confico').textContent=ico;document.getElementById('confok').onclick=()=>{closeM('m-conf');fn();};openM('m-conf');}
+function toast(msg,type='success'){const c=document.getElementById('toc');const t=document.createElement('div');t.className='tst '+type;t.innerHTML='<span>'+(type==='success'?'✅':type==='error'?'❌':'ℹ️')+'</span>'+msg;c.appendChild(t);setTimeout(()=>t.remove(),3500);}
+function showLdr(txt){document.getElementById('ldrtxt').textContent=txt;document.getElementById('ldr').classList.add('show');}
+function hideLdr(){document.getElementById('ldr').classList.remove('show');}
+
+loadLocal();applyS();updateGASStatus();
+// แสดง nav bar ทันที
+document.getElementById('mnav').style.display='flex';
+document.getElementById('mfooter').style.display='block';
+nav('home');
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if(e.key==='Escape'){
+    // ปิด modal ทุกอัน
+    document.querySelectorAll('.mov.open').forEach(m=>m.classList.remove('open'));
+  }
+  if(e.altKey&&e.key==='h'){nav('home');}
+  if(e.altKey&&e.key==='p'){nav('progress');}
+});
+
+// Service Worker registration (PWA offline)
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body></html>
