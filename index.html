@@ -193,7 +193,41 @@ textarea.fc2{resize:vertical;min-height:68px}
 .cmico{font-size:2.6rem;margin-bottom:9px}.cmmsg{font-size:.9rem;color:#374151}
 .aside::-webkit-scrollbar{height:3px}.aside::-webkit-scrollbar-thumb{background:rgba(167,139,250,.5);border-radius:2px}
 @media(max-width:640px){.hero h1{font-size:1.5rem}.aside{min-height:44px}.fr2{grid-template-columns:1fr}}
-    @media print{nav,footer,#mfooter,.mdb,.lnav{display:none!important}.inner{max-width:100%;padding:0}}
+/* ── Drag & Drop ── */
+.ui-drag{cursor:default;user-select:none}.ui-drag.dragging{opacity:.45;transform:scale(.97)}
+.ui-drag.drag-over{border-color:var(--p)!important;background:var(--pl)!important}
+.drag-handle{color:#d1d5db;font-size:1rem;cursor:grab;padding:0 6px 0 0;flex-shrink:0}
+/* ── Slideshow ── */
+#slideshow-overlay{display:none;position:fixed;inset:0;z-index:9000;background:#0f0f1a;flex-direction:column}
+#slideshow-overlay.open{display:flex;animation:fi .3s ease}
+.ss-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(255,255,255,.05);flex-shrink:0}
+.ss-title{color:#fff;font-size:.9rem;font-weight:600;opacity:.8}
+.ss-prog{color:#a78bfa;font-size:.8rem}
+.ss-body{flex:1;display:flex;align-items:center;justify-content:center;padding:32px 48px;overflow:hidden}
+.ss-slide{width:100%;max-width:820px;animation:fi .25s ease}
+.ss-slide h2{font-size:2rem;font-weight:800;color:#fff;margin-bottom:16px;line-height:1.3}
+.ss-slide .ss-sum{font-size:1.05rem;color:#c4b5fd;font-family:'Sarabun',sans-serif;line-height:1.8;margin-bottom:20px}
+.ss-kp{background:rgba(124,58,237,.2);border-left:3px solid #a78bfa;padding:10px 16px;border-radius:0 10px 10px 0;margin-bottom:8px;color:#e9d5ff;font-family:'Sarabun',sans-serif;font-size:.95rem}
+.ss-ctrl{display:flex;align-items:center;justify-content:center;gap:14px;padding:16px;flex-shrink:0}
+.ss-btn{padding:10px 22px;border-radius:12px;border:none;cursor:pointer;font-family:'Prompt',sans-serif;font-size:.88rem;font-weight:600;transition:all .2s}
+.ss-prev{background:rgba(255,255,255,.1);color:#fff}.ss-prev:hover{background:rgba(255,255,255,.2)}
+.ss-next{background:#7c3aed;color:#fff}.ss-next:hover{background:#6d28d9}
+.ss-exit{background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.65);padding:6px 14px;border-radius:8px;cursor:pointer;font-family:'Prompt',sans-serif;font-size:.8rem}
+.ss-exit:hover{background:rgba(255,255,255,.1);color:#fff}
+/* ── QR Modal ── */
+#m-qr .modal{max-width:340px}
+/* ── Quiz Detail ── */
+.qd-row{display:flex;align-items:flex-start;gap:10px;padding:11px;border-radius:10px;margin-bottom:8px;font-family:'Sarabun',sans-serif;font-size:.87rem}
+.qd-row.ok{background:#d1fae5;border:1px solid #a7f3d0}.qd-row.fail{background:#fee2e2;border:1px solid #fca5a5}
+.qd-no{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;color:#fff;margin-top:1px}
+.qd-row.ok .qd-no{background:#10b981}.qd-row.fail .qd-no{background:#ef4444}
+/* ── Admin Stats bars ── */
+.stat-bar-row{display:flex;align-items:center;gap:9px;margin-bottom:8px;font-size:.8rem}
+.stat-bar-label{width:130px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#374151}
+.stat-bar-track{flex:1;height:8px;background:#f3f4f6;border-radius:6px;overflow:hidden}
+.stat-bar-fill{height:100%;border-radius:6px;background:var(--p);transition:width .7s ease}
+.stat-bar-val{width:34px;text-align:right;color:#6b7280;flex-shrink:0}
+@media print{nav,footer,#mfooter,.lnav,.btn,#slideshow-overlay{display:none!important}.inner{max-width:100%;padding:0}.ccard{break-inside:avoid}}
     .sc:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.07);transition:all .2s}
     .kp{animation:fi .3s ease both}
     .kp:nth-child(2){animation-delay:.05s}.kp:nth-child(3){animation-delay:.1s}.kp:nth-child(4){animation-delay:.15s}
@@ -240,7 +274,7 @@ textarea.fc2{resize:vertical;min-height:68px}
     <div class="htags">
       <span class="tag" style="background:#ede9fe;color:var(--p)">📖 <span id="hcnt">0</span> รายวิชา</span>
       <span class="tag" style="background:#fce7f3;color:#db2777">🎬 วิดีโอประกอบ</span>
-      <span class="tag" style="background:#dbeafe;color:#2563eb">✅ ติดตามความก้าวหน้า</span>
+
     </div>
   </div>
   <div class="sec"><div class="st">📚 รายวิชาทั้งหมด</div><div class="cgrid" id="cgrid"></div></div>
@@ -292,6 +326,7 @@ textarea.fc2{resize:vertical;min-height:68px}
         <div class="ani" onclick="switchA('quiz')" data-ap="quiz">❓ Quiz</div>
         <div class="asep">|</div>
         <div class="ani" onclick="switchA('gassetup')" data-ap="gassetup">🔗 Google Sheet</div>
+        <div class="ani" onclick="switchA('stats')" data-ap="stats">📈 สถิติ</div>
         <div class="ani" onclick="switchA('settings')" data-ap="settings">🎨 ตั้งค่า</div>
         <div class="asep">|</div>
         <div class="ani" onclick="nav('home')" style="color:rgba(255,255,255,.45)">🏠 กลับหน้าเว็บ</div>
@@ -381,6 +416,24 @@ textarea.fc2{resize:vertical;min-height:68px}
             <button class="btn bsec bsm" onclick="syncFromGAS()">🔄 ดึงข้อมูล GAS → Local</button>
             <button class="btn bpri bsm" onclick="pushToGAS()">⬆️ ส่งข้อมูล Local → GAS</button>
           </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div id="ap-stats" class="apage">
+        <div class="ahdr"><div><h1>📈 สถิติเนื้อหา</h1><p>ภาพรวมความสมบูรณ์ของบทเรียน</p></div><button class="btn bsec bsm" onclick="rStats()">🔄 รีเฟรช</button></div>
+        <div class="sgrid" id="stats-summary"></div>
+        <div class="scrd">
+          <h3>📊 ความสมบูรณ์รายวิชา</h3>
+          <div id="stats-course-bars"></div>
+        </div>
+        <div class="scrd">
+          <h3>⚠️ บทเรียนที่ยังขาดข้อมูล</h3>
+          <div id="stats-missing"></div>
+        </div>
+        <div class="scrd">
+          <h3>🏆 สรุปรายหน่วย</h3>
+          <div id="stats-unit-table"></div>
         </div>
       </div>
 
@@ -499,6 +552,33 @@ textarea.fc2{resize:vertical;min-height:68px}
   <div class="modal"><div class="cmbd"><div class="cmico" id="confico">⚠️</div><div class="cmmsg" id="confmsg"></div></div>
   <div class="mft"><button class="btn bsec" onclick="closeM('m-conf')">ยกเลิก</button><button class="btn bdan" id="confok">ยืนยัน</button></div></div>
 </div>
+<!-- SLIDESHOW OVERLAY -->
+<div id="slideshow-overlay">
+  <div class="ss-nav">
+    <div class="ss-title" id="ss-course-title"></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="ss-prog" id="ss-prog"></div>
+      <button class="ss-exit" onclick="closeSlideshow()">✕ ออก (Esc)</button>
+    </div>
+  </div>
+  <div class="ss-body"><div class="ss-slide" id="ss-slide"></div></div>
+  <div class="ss-ctrl">
+    <button class="ss-btn ss-prev" onclick="ssNav(-1)">← ก่อนหน้า</button>
+    <div style="display:flex;gap:5px" id="ss-dots"></div>
+    <button class="ss-btn ss-next" onclick="ssNav(1)" id="ss-next-btn">ถัดไป →</button>
+  </div>
+</div>
+
+<!-- QR MODAL -->
+<div class="mov" id="m-qr">
+  <div class="modal" style="max-width:340px"><div class="mhd"><h2 id="qr-title">QR Code</h2><button class="mcl" onclick="closeM('m-qr')">✕</button></div>
+  <div class="mbd" style="text-align:center;padding:24px">
+    <div id="qr-canvas" style="display:flex;justify-content:center;margin-bottom:14px"></div>
+    <p id="qr-url" style="font-size:.72rem;color:#9ca3af;word-break:break-all;margin-bottom:14px"></p>
+    <button class="btn bpri" onclick="downloadQR()">⬇️ บันทึก QR Code</button>
+  </div></div>
+</div>
+
 <script>
 const GR=['linear-gradient(135deg,#f472b6,#c084fc)','linear-gradient(135deg,#60a5fa,#a78bfa)','linear-gradient(135deg,#34d399,#3b82f6)','linear-gradient(135deg,#fbbf24,#f97316)','linear-gradient(135deg,#f87171,#fb923c)','linear-gradient(135deg,#e879f9,#f472b6)','linear-gradient(135deg,#2dd4bf,#6366f1)','linear-gradient(135deg,#fb7185,#f43f5e)','linear-gradient(135deg,#4ade80,#22c55e)','linear-gradient(135deg,#38bdf8,#0ea5e9)','linear-gradient(135deg,#a78bfa,#6d28d9)','linear-gradient(135deg,#fcd34d,#f59e0b)'];
 const CE=['📚','🎨','🧠','🚀','🌱','🔧','🖌️','🌐','💻','⚙️','📊','🎓','🔬','💡','🌟'];
@@ -742,7 +822,7 @@ function nav(v,a=null,b=null){
   const el=document.getElementById('page-'+(isAdmin?'admin':v));
   if(el)el.classList.add('active');
   window.scrollTo(0,0);
-  const m={home:rHome,course:()=>rCourse(a),lesson:()=>rLesson(a,b),quiz:()=>startQuiz(a,b),progress:rProgress,admin:()=>{if(!aOK){goAdmin();return;}switchA('dash');}};
+  const m={home:rHome,course:()=>rCourse(a),lesson:()=>rLesson(a,b),quiz:()=>startQuiz(a,b),admin:()=>{if(!aOK){goAdmin();return;}switchA('dash');}};
   m[v]?.();
 }
 
@@ -773,6 +853,11 @@ function rCourse(cid){
   document.getElementById('cb').style.background=c.gradient;
   document.getElementById('cemi').textContent=c.emoji;document.getElementById('ctit').textContent=c.title;
   document.getElementById('clvl').textContent=c.level;document.getElementById('cdesc').textContent=c.desc;
+  // QR + Slideshow buttons
+  let courseBtns=document.getElementById('course-action-btns');
+  if(!courseBtns){courseBtns=document.createElement('div');courseBtns.id='course-action-btns';courseBtns.style.cssText='display:flex;gap:8px;margin-top:12px;flex-wrap:wrap';document.getElementById('cb').appendChild(courseBtns);}
+  courseBtns.innerHTML='<button onclick="showQR(\''+cid+'\')" style="padding:7px 14px;border-radius:10px;border:none;cursor:pointer;font-family:\'Prompt\',sans-serif;font-size:.78rem;background:rgba(255,255,255,.2);color:#fff;backdrop-filter:blur(4px)">📱 QR Code</button>'
+    +'<button onclick="startCourseSlideshow(\''+cid+'\')" style="padding:7px 14px;border-radius:10px;border:none;cursor:pointer;font-family:\'Prompt\',sans-serif;font-size:.78rem;background:rgba(255,255,255,.9);color:#1e1b4b;font-weight:600">▶ นำเสนอทั้งวิชา</button>';
 
   const ul=document.getElementById('ulist');ul.innerHTML='';
   (c.units||[]).forEach((u,i)=>{
@@ -819,7 +904,11 @@ function rLesson(cid,ui){
   const prev=ui>0?c.units[ui-1]:null,next=ui<c.units.length-1?c.units[ui+1]:null;
   area.innerHTML+='<div class="lnav">'
     +(prev?'<button class="lnb lnprev" onclick="nav(\'lesson\',\''+cid+'\','+(ui-1)+')">‹ '+prev.name+'</button>':'<div></div>')
+    +'<div style="display:flex;gap:6px">'
     +'<button onclick="window.scrollTo({top:0,behavior:\'smooth\'})" style="padding:7px 12px;border-radius:10px;border:none;cursor:pointer;font-family:inherit;font-size:.75rem;background:#f3f4f6;color:#6b7280">⬆ ขึ้นบน</button>'
+    +'<button onclick="printLesson()" style="padding:7px 12px;border-radius:10px;border:1px solid #e5e7eb;cursor:pointer;font-family:inherit;font-size:.75rem;background:#fff;color:#374151">🖨️ PDF</button>'
+    +'<button onclick="startSlideshow(\''+cid+'\','+ui+')" style="padding:7px 12px;border-radius:10px;border:none;cursor:pointer;font-family:inherit;font-size:.75rem;background:#1e1b4b;color:#fff">▶ สไลด์</button>'
+    +'</div>'
     +(next?'<button class="lnb lnnext" onclick="nav(\'lesson\',\''+cid+'\','+(ui+1)+')">'+next.name+' ›</button>':'<div></div>')
     +'</div>';
 }
@@ -849,36 +938,15 @@ function rQQ(){
 }
 function ansQ(idx){
   const q=QS.qs[QS.cur],ok=idx===q.answer;
-  if(ok)QS.score++;QS.ans.push({idx,ok});
+  if(ok)QS.score++;QS.ans.push({sel:idx,ok});
   q.options.forEach((_,i)=>{const el=document.getElementById('qo'+i);el.disabled=true;if(i===q.answer)el.classList.add('correct');else if(i===idx&&!ok)el.classList.add('wrong');});
   const fb=document.getElementById('qfb');fb.style.display='block';fb.className='qfb '+(ok?'ok':'fail');fb.textContent=(ok?'✅ ถูกต้อง! ':'❌ ไม่ถูก — ')+(q.explain||'');
   document.querySelector('.qcard').insertAdjacentHTML('beforeend','<div style="display:flex;justify-content:flex-end;margin-top:11px"><button class="btn bpri" onclick="nextQ()">'+(QS.cur>=QS.qs.length-1?'ดูผลลัพธ์':'ข้อถัดไป →')+'</button></div>');
 }
 function nextQ(){QS.cur++;if(QS.cur>=QS.qs.length)rQResult();else rQQ();}
-function rQResult(){
-  const{cid,ui,score,qs}=QS,tot=qs.length,pct=Math.round(score/tot*100);
-  sqd(cid,ui,score,tot);
-  const e=pct>=80?'🏆':pct>=60?'👍':pct>=40?'😅':'💪',msg=pct>=80?'ยอดเยี่ยมมาก!':pct>=60?'ดีมาก ลองทบทวนอีก':pct>=40?'พยายามต่อไป':'ลองเรียนใหม่แล้วทำอีกครั้ง';
-  document.getElementById('qarea').innerHTML='<div class="qcard" style="text-align:center;padding:32px 20px"><div style="font-size:3.2rem;margin-bottom:9px">'+e+'</div><div style="font-size:2.2rem;font-weight:800;color:var(--p)">'+score+'/'+tot+'</div><div style="font-size:1.7rem;font-weight:700;color:var(--p);margin:3px 0">'+pct+'%</div><p style="color:#6b7280;font-size:.85rem;margin-top:4px">'+msg+'</p><div style="display:flex;gap:9px;justify-content:center;margin-top:18px;flex-wrap:wrap"><button class="btn bsec" onclick="startQuiz(\''+cid+'\','+ui+')">🔄 ทำใหม่</button><button class="btn bpri" onclick="nav(\'lesson\',\''+cid+'\','+ui+')">กลับบทเรียน</button></div></div>';
-}
-
-// ── PROGRESS ──
-function rProgress(){
-  const cl=C();let td=0,tt=0,qc=0,qa=0;
-  cl.forEach(c=>{const{d,t}=gcp(c.id);td+=d;tt+=t;(c.units||[]).forEach((_,i)=>{const q=gqd(c.id,i);if(q){qc++;qa+=q.pct;}});});
-  document.getElementById('pstats').innerHTML='<div class="smin"><div class="smn">'+td+'</div><div class="sml">หน่วยที่เรียน</div></div><div class="smin"><div class="smn">'+tt+'</div><div class="sml">ทั้งหมด</div></div><div class="smin"><div class="smn">'+(tt?Math.round(td/tt*100):0)+'%</div><div class="sml">รวม</div></div><div class="smin"><div class="smn">'+qc+'</div><div class="sml">Quiz ที่ทำ</div></div><div class="smin"><div class="smn">'+(qc?Math.round(qa/qc):'-')+(qc?'%':'')+'</div><div class="sml">คะแนนเฉลี่ย</div></div>';
-  const g=document.getElementById('pgrid');g.innerHTML='';
-  cl.forEach(c=>{
-    const{d,t}=gcp(c.id);const pct=t?Math.round(d/t*100):0;
-    const rows=(c.units||[]).map((u,i)=>{const done=gp(c.id,i),qd=gqd(c.id,i);return'<div style="display:flex;align-items:center;justify-content:space-between;font-size:.76rem;padding:3px 0"><span>'+u.icon+' '+u.name+'</span><div style="display:flex;align-items:center;gap:5px">'+(qd?'<span style="font-size:.68rem;color:#6b7280">'+qd.pct+'%</span>':'')+'<span>'+(done?'✅':'⬜')+'</span></div></div>';}).join('');
-    const card=document.createElement('div');card.className='pcard';
-    card.innerHTML='<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><span style="font-size:1.8rem">'+c.emoji+'</span><div><div style="font-weight:700;font-size:.92rem">'+c.title+'</div><div style="font-size:.73rem;color:var(--sec)">'+c.level+'</div></div></div><div style="display:flex;justify-content:space-between;font-size:.73rem;color:var(--sec);margin-bottom:3px"><span>'+d+'/'+t+' หน่วย</span><span>'+pct+'%</span></div><div class="pb"><div class="pbf" style="width:'+pct+'%;background:var(--p)"></div></div><div style="margin-top:8px">'+rows+'</div>';
-    g.appendChild(card);
-  });
-}
 
 // ── ADMIN ──
-function switchA(p){document.querySelectorAll('.apage').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.ani').forEach(x=>x.classList.remove('active'));document.getElementById('ap-'+p)?.classList.add('active');document.querySelector('[data-ap="'+p+'"]')?.classList.add('active');({dash:rDash,courses:()=>rCT(),units:rUSel,quiz:rQSel,gassetup:()=>updateGASStatus(),settings:loadS})[p]?.();}
+function switchA(p){document.querySelectorAll('.apage').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.ani').forEach(x=>x.classList.remove('active'));document.getElementById('ap-'+p)?.classList.add('active');document.querySelector('[data-ap="'+p+'"]')?.classList.add('active');({dash:rDash,courses:()=>rCT(),units:rUSel,quiz:rQSel,gassetup:()=>updateGASStatus(),stats:rStats,settings:loadS})[p]?.();}
 
 function rDash(){
   updateGASStatus();
@@ -930,17 +998,194 @@ function loadUA(cid){
   const area=document.getElementById('uarea');
   if(!cid){area.innerHTML='<div class="es"><div class="ei">📋</div><p>เลือกรายวิชา</p></div>';return;}
   const c=C().find(x=>x.id===cid);if(!c)return;
-  let h='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;flex-wrap:wrap;gap:8px"><div style="font-weight:700;color:#1e1b4b">'+c.emoji+' '+c.title+'</div><button class="btn bpri" onclick="openUM(\''+cid+'\',-1)">＋ เพิ่มหน่วย</button></div><div class="tw">';
+  let h='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;flex-wrap:wrap;gap:8px"><div style="font-weight:700;color:#1e1b4b">'+c.emoji+' '+c.title+'</div><button class="btn bpri" onclick="openUM(\''+cid+'\',-1)">＋ เพิ่มหน่วย</button></div>';
+  h+='<p style="font-size:.75rem;color:#9ca3af;margin-bottom:8px">☰ ลากเพื่อเรียงลำดับหน่วย</p><div class="tw">';
   if(!c.units||!c.units.length){h+='<div class="es"><div class="ei">📋</div><p>ยังไม่มีหน่วย</p></div>';}
-  else{h+='<table><thead><tr><th>#</th><th>ไอคอน</th><th>ชื่อ</th><th>วิดีโอ</th><th>Quiz</th><th></th></tr></thead><tbody>';c.units.forEach((u,i)=>{h+='<tr><td>'+(i+1)+'</td><td style="font-size:1.25rem">'+u.icon+'</td><td><strong>'+u.name+'</strong></td><td>'+(u.videoUrl?'<span class="badge bgr">✅</span>':'—')+'</td><td>'+(u.quiz||[]).length+' ข้อ</td><td><div class="tda"><button class="btn bsec bsm" onclick="openUM(\''+cid+'\','+i+')">✏️</button><button class="btn bsec bsm" onclick="mvU(\''+cid+'\','+i+',-1)" '+(i===0?'disabled':'')+'>↑</button><button class="btn bsec bsm" onclick="mvU(\''+cid+'\','+i+',1)" '+(i===c.units.length-1?'disabled':'')+'>↓</button><button class="btn bdan bsm" onclick="confDel(\'unit\',\''+cid+'\','+i+')">🗑️</button></div></td></tr>';});h+='</tbody></table>';}
+  else{h+='<table><thead><tr><th></th><th>#</th><th>ไอคอน</th><th>ชื่อ</th><th>วิดีโอ</th><th>Quiz</th><th>เนื้อหา</th><th></th></tr></thead><tbody id="unit-tbody">';
+    c.units.forEach((u,i)=>{h+='<tr class="ui-drag" draggable="true" data-idx="'+i+'" data-cid="'+cid+'"><td><span class="drag-handle">☰</span></td><td>'+(i+1)+'</td><td style="font-size:1.2rem">'+u.icon+'</td><td><strong>'+u.name+'</strong></td><td>'+(u.videoUrl?'<span class="badge bgr">✅</span>':'—')+'</td><td>'+(u.quiz||[]).length+' ข้อ</td><td>'+(u.content&&u.content.trim()?'<span class="badge bgr">✅</span>':'—')+'</td><td><div class="tda"><button class="btn bsec bsm" onclick="openUM(\''+cid+'\','+i+')">✏️</button><button class="btn bdan bsm" onclick="confDel(\'unit\',\''+cid+'\','+i+')">🗑️</button></div></td></tr>';});
+    h+='</tbody></table>';}
   area.innerHTML=h+'</div>';
+  initDragDrop(cid);
 }
 function mvU(cid,i,d){const c=C().find(x=>x.id===cid);const ni=i+d;if(ni<0||ni>=c.units.length)return;[c.units[i],c.units[ni]]=[c.units[ni],c.units[i]];saveLocal();loadUA(cid);toast('เรียงลำดับแล้ว','success');}
-function setUIcon(e){
-  document.getElementById('muico').value=e;
-  document.querySelectorAll('#muep .epo').forEach(el=>{
-    el.classList.toggle('sel', el.dataset.e===e);
+
+// ── DRAG & DROP ─────────────────────────────────────────────
+function initDragDrop(cid){
+  const tbody=document.getElementById('unit-tbody');if(!tbody)return;
+  let dragIdx=null;
+  tbody.querySelectorAll('.ui-drag').forEach(row=>{
+    row.addEventListener('dragstart',e=>{dragIdx=parseInt(row.dataset.idx);row.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+    row.addEventListener('dragend',()=>{row.classList.remove('dragging');tbody.querySelectorAll('.ui-drag').forEach(r=>r.classList.remove('drag-over'));});
+    row.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='move';tbody.querySelectorAll('.ui-drag').forEach(r=>r.classList.remove('drag-over'));row.classList.add('drag-over');});
+    row.addEventListener('drop',e=>{
+      e.preventDefault();
+      const toIdx=parseInt(row.dataset.idx);
+      if(dragIdx===null||dragIdx===toIdx)return;
+      const c=C().find(x=>x.id===cid);if(!c)return;
+      const moved=c.units.splice(dragIdx,1)[0];c.units.splice(toIdx,0,moved);
+      saveLocal();loadUA(cid);toast('เรียงลำดับแล้ว ✅','success');dragIdx=null;
+    });
   });
+}
+
+// ── QUIZ DETAIL RESULT ───────────────────────────────────────
+function rQResult(){
+  const{cid,ui,score,qs,ans}=QS,tot=qs.length,pct=Math.round(score/tot*100);
+  sqd(cid,ui,score,tot);
+  const e=pct>=80?'🏆':pct>=60?'👍':pct>=40?'😅':'💪',msg=pct>=80?'ยอดเยี่ยมมาก!':pct>=60?'ดีมาก ลองทบทวนอีกครั้ง':pct>=40?'พยายามต่อไปนะ':'ลองเรียนใหม่แล้วทำอีกครั้ง';
+  let detail='';
+  qs.forEach((q,i)=>{
+    const a=ans[i];const ok=a&&a.ok;
+    detail+='<div class="qd-row '+(ok?'ok':'fail')+'"><div class="qd-no">'+(ok?'✓':'✗')+'</div><div style="flex:1"><div style="font-weight:600;margin-bottom:3px">ข้อ '+(i+1)+': '+q.question+'</div>';
+    if(!ok&&a!==undefined){detail+='<div style="font-size:.8rem;color:#991b1b;margin-bottom:2px">คำตอบของคุณ: '+(q.options[a.sel]||'—')+'</div>';}
+    detail+='<div style="font-size:.8rem;color:#065f46">เฉลย: '+q.options[q.answer]+'</div>';
+    if(q.explain)detail+='<div style="font-size:.78rem;color:#6b7280;margin-top:3px;font-style:italic">'+q.explain+'</div>';
+    detail+='</div></div>';
+  });
+  document.getElementById('qarea').innerHTML=
+    '<div class="qcard" style="text-align:center;padding:28px 20px 20px">'
+    +'<div style="font-size:3rem;margin-bottom:8px">'+e+'</div>'
+    +'<div style="font-size:2rem;font-weight:800;color:var(--p)">'+score+'/'+tot+'</div>'
+    +'<div style="font-size:1.5rem;font-weight:700;color:var(--p);margin:2px 0">'+pct+'%</div>'
+    +'<p style="color:#6b7280;font-size:.84rem;margin-top:4px">'+msg+'</p>'
+    +'<div style="display:flex;gap:9px;justify-content:center;margin-top:16px;flex-wrap:wrap">'
+    +'<button class="btn bsec" onclick="startQuiz(\''+cid+'\','+ui+')">🔄 ทำใหม่</button>'
+    +'<button class="btn bpri" onclick="nav(\'lesson\',\''+cid+'\','+ui+')">กลับบทเรียน</button>'
+    +'</div></div>'
+    +'<div class="ccard"><h3>📋 รายละเอียดทุกข้อ</h3>'+detail+'</div>';
+}
+
+// ── PDF / PRINT ──────────────────────────────────────────────
+function printLesson(){window.print();}
+
+// ── SLIDESHOW ────────────────────────────────────────────────
+let SS={slides:[],cur:0,courseTitle:''};
+function buildSlides(c,unitIdx){
+  const slides=[];
+  const units=unitIdx!==-1?[c.units[unitIdx]]:c.units;
+  units.forEach(u=>{
+    slides.push({type:'title',icon:u.icon,name:u.name,summary:u.summary});
+    if(u.keyPoints&&u.keyPoints.length)slides.push({type:'keypoints',name:u.name,pts:u.keyPoints});
+    if(u.flowchart&&u.flowchart[0])slides.push({type:'flow',name:u.name,steps:u.flowchart[0].split(' → ')});
+  });
+  return slides;
+}
+function startSlideshow(cid,ui){
+  const c=C().find(x=>x.id===cid);if(!c)return;
+  SS.slides=buildSlides(c,ui);SS.cur=0;SS.courseTitle=c.emoji+' '+c.title;
+  renderSSSlide();
+  document.getElementById('slideshow-overlay').classList.add('open');
+}
+function startCourseSlideshow(cid){startSlideshow(cid,-1);}
+function closeSlideshow(){document.getElementById('slideshow-overlay').classList.remove('open');}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('slideshow-overlay').classList.contains('open'))return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')ssNav(1);
+  else if(e.key==='ArrowLeft'||e.key==='ArrowUp')ssNav(-1);
+  else if(e.key==='Escape')closeSlideshow();
+});
+function ssNav(d){SS.cur=Math.max(0,Math.min(SS.slides.length-1,SS.cur+d));renderSSSlide();}
+function renderSSSlide(){
+  const{slides,cur,courseTitle}=SS,s=slides[cur];
+  document.getElementById('ss-course-title').textContent=courseTitle;
+  document.getElementById('ss-prog').textContent=(cur+1)+' / '+slides.length;
+  document.getElementById('ss-next-btn').textContent=cur>=slides.length-1?'จบ ✓':'ถัดไป →';
+  if(cur>=slides.length-1)document.getElementById('ss-next-btn').onclick=closeSlideshow;
+  else document.getElementById('ss-next-btn').onclick=()=>ssNav(1);
+  let html='';
+  if(s.type==='title'){
+    html='<div style="text-align:center;padding:20px 0"><div style="font-size:4rem;margin-bottom:16px">'+s.icon+'</div>'
+      +'<h2>'+s.name+'</h2><p class="ss-sum">'+s.summary+'</p></div>';
+  }else if(s.type==='keypoints'){
+    html='<h2>🎯 ประเด็นสำคัญ: '+s.name+'</h2>';
+    s.pts.forEach((p,i)=>{html+='<div class="ss-kp"><span style="opacity:.5;margin-right:8px">'+(i+1)+'.</span>'+p+'</div>';});
+  }else if(s.type==='flow'){
+    html='<h2>📊 ผังขั้นตอน: '+s.name+'</h2><div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:20px">';
+    s.steps.forEach((st,i)=>{
+      html+='<div style="background:rgba(124,58,237,.25);border:1px solid rgba(167,139,250,.4);padding:12px 20px;border-radius:12px;color:#e9d5ff;font-size:1rem">'+st.trim()+'</div>';
+      if(i<s.steps.length-1)html+='<div style="color:#a78bfa;font-size:1.3rem">→</div>';
+    });
+    html+='</div>';
+  }
+  document.getElementById('ss-slide').innerHTML=html;
+  const dots=document.getElementById('ss-dots');
+  dots.innerHTML=slides.map((_,i)=>'<div style="width:'+(i===cur?'20':'8')+'px;height:8px;border-radius:4px;background:'+(i===cur?'#a78bfa':'rgba(255,255,255,.25)')+';transition:all .3s"></div>').join('');
+}
+
+// ── QR CODE ──────────────────────────────────────────────────
+function showQR(cid){
+  const c=C().find(x=>x.id===cid);if(!c)return;
+  const url=location.href.split('?')[0]+'?c='+cid;
+  document.getElementById('qr-title').textContent='📱 QR: '+c.emoji+' '+c.title;
+  document.getElementById('qr-url').textContent=url;
+  document.getElementById('qr-canvas').innerHTML='';
+  // ใช้ QR API สาธารณะ
+  const img=document.createElement('img');
+  img.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(url);
+  img.alt='QR Code';img.style.cssText='width:200px;height:200px;border-radius:10px;border:4px solid #ede9fe';
+  img.id='qr-img';
+  document.getElementById('qr-canvas').appendChild(img);
+  openM('m-qr');
+}
+function downloadQR(){
+  const img=document.getElementById('qr-img');if(!img)return;
+  const a=document.createElement('a');a.href=img.src;a.download='qrcode.png';a.click();
+}
+
+// ── ADMIN STATS ──────────────────────────────────────────────
+function rStats(){
+  const cl=C();
+  let totalU=0,withVideo=0,withContent=0,withQuiz=0,withKP=0;
+  const missing=[];
+  cl.forEach(c=>{
+    (c.units||[]).forEach(u=>{
+      totalU++;
+      if(u.videoUrl)withVideo++;
+      if(u.content&&u.content.trim())withContent++;
+      if(u.quiz&&u.quiz.length)withQuiz++;
+      if(u.keyPoints&&u.keyPoints.length)withKP++;
+      const lack=[];
+      if(!u.videoUrl)lack.push('วิดีโอ');
+      if(!u.content||!u.content.trim())lack.push('เนื้อหา');
+      if(!u.quiz||!u.quiz.length)lack.push('Quiz');
+      if(!u.keyPoints||!u.keyPoints.length)lack.push('ประเด็น');
+      if(lack.length)missing.push({course:c.emoji+' '+c.title,unit:u.icon+' '+u.name,lack});
+    });
+  });
+  const pct=n=>totalU?Math.round(n/totalU*100):0;
+  document.getElementById('stats-summary').innerHTML=
+    '<div class="sc"><div class="sci">📚</div><div class="scn">'+cl.length+'</div><div class="scl">รายวิชา</div></div>'
+    +'<div class="sc"><div class="sci">📋</div><div class="scn">'+totalU+'</div><div class="scl">หน่วยทั้งหมด</div></div>'
+    +'<div class="sc"><div class="sci">🎬</div><div class="scn">'+withVideo+'</div><div class="scl">มีวิดีโอ</div></div>'
+    +'<div class="sc"><div class="sci">📄</div><div class="scn">'+withContent+'</div><div class="scl">มีเนื้อหา</div></div>'
+    +'<div class="sc"><div class="sci">❓</div><div class="scn">'+withQuiz+'</div><div class="scl">มี Quiz</div></div>'
+    +'<div class="sc"><div class="sci">🎯</div><div class="scn">'+withKP+'</div><div class="scl">มีประเด็น</div></div>';
+  // Bar per course
+  let bars='';
+  cl.forEach(c=>{
+    const u=(c.units||[]);const tot=u.length;if(!tot)return;
+    const vids=u.filter(x=>x.videoUrl).length;
+    const con=u.filter(x=>x.content&&x.content.trim()).length;
+    const qz=u.filter(x=>x.quiz&&x.quiz.length).length;
+    const score=Math.round((vids+con+qz)/(tot*3)*100);
+    bars+='<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;font-size:.83rem;font-weight:600;margin-bottom:6px"><span>'+c.emoji+' '+c.title+'</span><span style="color:var(--p)">'+score+'%</span></div>';
+    [[vids,'🎬 วิดีโอ'],[con,'📄 เนื้อหา'],[qz,'❓ Quiz']].forEach(([n,label])=>{
+      bars+='<div class="stat-bar-row"><div class="stat-bar-label">'+label+'</div><div class="stat-bar-track"><div class="stat-bar-fill" style="width:'+pct(n)+'%"></div></div><div class="stat-bar-val">'+n+'/'+tot+'</div></div>';
+    });
+    bars+='</div>';
+  });
+  document.getElementById('stats-course-bars').innerHTML=bars||'<p style="color:#9ca3af;font-size:.85rem">ไม่มีข้อมูล</p>';
+  // Missing
+  document.getElementById('stats-missing').innerHTML=missing.length
+    ?missing.map(m=>'<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;background:#fff8f0;border:1px solid #fde68a;margin-bottom:7px;font-size:.82rem"><div><div style="font-weight:600">'+m.unit+'</div><div style="color:#9ca3af;font-size:.75rem">'+m.course+'</div></div><div style="margin-left:auto;display:flex;gap:5px;flex-wrap:wrap">'+m.lack.map(l=>'<span style="background:#fee2e2;color:#dc2626;padding:2px 8px;border-radius:20px;font-size:.72rem">ขาด '+l+'</span>').join('')+'</div></div>').join('')
+    :'<div style="color:#10b981;font-weight:600;padding:12px;background:#d1fae5;border-radius:9px">✅ ทุกหน่วยมีข้อมูลครบถ้วน!</div>';
+  // Unit table
+  let rows='';
+  cl.forEach(c=>{(c.units||[]).forEach((u,i)=>{
+    const ok=(f)=>f?'<span class="badge bgr">✅</span>':'<span style="color:#d1d5db">—</span>';
+    rows+='<tr><td>'+c.emoji+' '+c.title+'</td><td>'+u.icon+' '+u.name+'</td><td>'+ok(u.videoUrl)+'</td><td>'+ok(u.content&&u.content.trim())+'</td><td>'+ok(u.quiz&&u.quiz.length)+'</td><td>'+ok(u.keyPoints&&u.keyPoints.length)+'</td></tr>';
+  });});
+  document.getElementById('stats-unit-table').innerHTML='<div class="tw"><table><thead><tr><th>วิชา</th><th>หน่วย</th><th>🎬</th><th>📄</th><th>❓</th><th>🎯</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
 }
 function openUM(cid,idx){
   document.getElementById('mut').textContent=idx>=0?'แก้ไขหน่วย':'เพิ่มหน่วย';
@@ -954,6 +1199,7 @@ function openUM(cid,idx){
 function rKPL(pts){document.getElementById('mukps').innerHTML=pts.map((p,i)=>'<div class="kpi"><input type="text" class="fc2" value="'+p+'" placeholder="ประเด็นที่ '+(i+1)+'..."><button class="btn bdan bsm" title="ลบ" onclick="this.parentElement.remove()">✕</button></div>').join('');}
 function addKP(){const d=document.getElementById('mukps');const n=d.querySelectorAll('.kpi').length;d.insertAdjacentHTML('beforeend','<div class="kpi"><input type="text" class="fc2" placeholder="ประเด็นที่ '+(n+1)+'..."><button class="btn bdan bsm" title="ลบ" onclick="this.parentElement.remove()">✕</button></div>');d.lastElementChild.querySelector('input').focus();}
 function getKPs(){return Array.from(document.querySelectorAll('#mukps input')).map(i=>i.value.trim()).filter(Boolean);}
+function setUIcon(e){document.getElementById('muico').value=e;document.querySelectorAll('#muep .epo').forEach(x=>{x.classList.toggle('sel',x.dataset.e===e);});}
 
 // ── Rich text toolbar ──
 function muFmt(tag){
@@ -1107,7 +1353,7 @@ document.addEventListener('keydown', e => {
     document.querySelectorAll('.mov.open').forEach(m=>m.classList.remove('open'));
   }
   if(e.altKey&&e.key==='h'){nav('home');}
-  if(e.altKey&&e.key==='p'){nav('progress');}
+  if(e.altKey&&e.key==='a'){goAdmin();}
 });
 
 // Service Worker registration (PWA offline)
