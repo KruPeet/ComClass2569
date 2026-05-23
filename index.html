@@ -256,7 +256,6 @@ textarea.fc2{resize:vertical;min-height:68px}
       </div>
       <p id="cdesc" style="font-size:.83rem;opacity:.87;font-family:'Sarabun',sans-serif"></p>
     </div>
-    <div class="psumm" id="cpsumm"></div>
     <div style="font-size:.92rem;font-weight:700;margin-bottom:11px">📋 หน่วยการเรียนรู้</div>
     <div class="ulist" id="ulist"></div>
   </div>
@@ -454,12 +453,43 @@ textarea.fc2{resize:vertical;min-height:68px}
 <div class="mov" id="m-unit">
   <div class="modal" style="max-width:640px"><div class="mhd"><h2 id="mut">เพิ่มหน่วย</h2><button class="mcl" onclick="closeM('m-unit')">✕</button></div>
   <div class="mbd"><input type="hidden" id="mucid"><input type="hidden" id="muidx" value="-1">
-    <div class="fr2"><div class="fg"><label>ชื่อหน่วย *</label><input type="text" class="fc2" id="mun"></div><div class="fg"><label>ไอคอน</label><input type="text" class="fc2" id="muico" style="font-size:1.1rem;text-align:center" placeholder="📖"></div></div>
-    <div class="fg"><label>ไอคอนด่วน</label><div class="epck" id="muep" style="max-height:76px;overflow-y:auto"></div></div>
-    <div class="fg"><label>สรุปเนื้อหา *</label><textarea class="fc2" id="musum"></textarea></div>
-    <div class="fg"><label>ลิงก์วิดีโอ YouTube Embed</label><input type="text" class="fc2" id="muvid" placeholder="https://www.youtube.com/embed/..."><small>Share → Embed → copy src=""</small></div>
-    <div class="fg"><label>ประเด็นสำคัญ</label><div id="mukps"></div><button class="btn bsec bsm" style="margin-top:5px" onclick="addKP()">＋ เพิ่ม</button></div>
-    <div class="fg"><label>ผังขั้นตอน (คั่นด้วย " → ")</label><input type="text" class="fc2" id="muflow" placeholder="ขั้น 1 → ขั้น 2 → ขั้น 3"></div>
+    <div class="fr2"><div class="fg"><label>ชื่อหน่วย *</label><input type="text" class="fc2" id="mun" placeholder="เช่น พื้นฐานมัลติมีเดีย"></div><div class="fg"><label>ไอคอนที่เลือก</label><input type="text" class="fc2" id="muico" style="font-size:1.4rem;text-align:center;cursor:default" readonly placeholder="📖"></div></div>
+    <div class="fg"><label>เลือกไอคอน</label><div class="epck" id="muep" style="max-height:88px;overflow-y:auto;background:#f8f7ff;border:1px solid #e5e7eb;border-radius:9px;padding:6px"></div></div>
+    <div class="fg"><label>สรุปเนื้อหา *</label><textarea class="fc2" id="musum" rows="3" placeholder="สรุปเนื้อหาของหน่วยนี้..."></textarea></div>
+    <div class="fg"><label>ลิงก์วิดีโอ YouTube Embed</label><input type="text" class="fc2" id="muvid" placeholder="https://www.youtube.com/embed/..."><small style="color:#9ca3af">Share → Embed → copy src=""</small></div>
+    <div class="fg">
+      <label>ประเด็นสำคัญ</label>
+      <div id="mukps" style="display:flex;flex-direction:column;gap:6px;margin-bottom:6px"></div>
+      <button class="btn bsec bsm" onclick="addKP()">＋ เพิ่มประเด็น</button>
+    </div>
+    <div class="fg"><label>ผังขั้นตอน <span style="font-size:.72rem;color:#9ca3af;font-weight:400">(คั่นด้วย " → ")</span></label><input type="text" class="fc2" id="muflow" placeholder="ขั้น 1 → ขั้น 2 → ขั้น 3"></div>
+
+    <div class="fg" style="border-top:1px solid #f3f4f6;padding-top:13px;margin-top:4px">
+      <label>📄 เนื้อหาบทเรียน <span style="font-size:.72rem;color:#9ca3af;font-weight:400">(รองรับ HTML เบื้องต้น)</span></label>
+      <div id="mu-toolbar" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;padding:6px;background:#f8f7ff;border:1px solid #e5e7eb;border-bottom:none;border-radius:8px 8px 0 0">
+        <button type="button" class="btn bsec bsm" title="หัวข้อ" onclick="muFmt('h3')"><b>H</b></button>
+        <button type="button" class="btn bsec bsm" title="ตัวหนา" onclick="muFmt('b')"><b>B</b></button>
+        <button type="button" class="btn bsec bsm" title="ตัวเอียง" onclick="muFmt('i')"><i>I</i></button>
+        <button type="button" class="btn bsec bsm" title="밑줄" onclick="muFmt('u')"><u>U</u></button>
+        <button type="button" class="btn bsec bsm" title="รายการ" onclick="muFmt('li')">• รายการ</button>
+        <button type="button" class="btn bsec bsm" title="ไฮไลต์" onclick="muFmt('mark')">🖊 ไฮไลต์</button>
+        <button type="button" class="btn bsec bsm" title="บรรทัดใหม่" onclick="muFmt('br')">↵ บรรทัด</button>
+        <button type="button" class="btn bdan bsm" title="ล้างทั้งหมด" onclick="if(confirm('ล้างเนื้อหาทั้งหมด?'))document.getElementById('mucontent').innerHTML=''">🗑️</button>
+      </div>
+      <div id="mucontent" contenteditable="true" spellcheck="false"
+        style="min-height:130px;max-height:280px;overflow-y:auto;border:1px solid #e5e7eb;border-radius:0 0 8px 8px;padding:10px 13px;font-family:'Sarabun',sans-serif;font-size:.9rem;line-height:1.7;background:#fff;color:#1f2937;outline:none;transition:border-color .2s"
+        onfocus="this.style.borderColor='var(--p)'" onblur="this.style.borderColor='#e5e7eb'"
+        placeholder="พิมพ์เนื้อหาบทเรียนที่นี่...">
+      </div>
+      <small style="color:#9ca3af">เนื้อหานี้จะแสดงในหน้าบทเรียนของนักเรียน</small>
+    </div>
+
+    <div class="fg" style="border-top:1px solid #f3f4f6;padding-top:13px">
+      <label>📎 ไฟล์แนบ / ลิงก์เอกสาร</label>
+      <div id="muattach" style="display:flex;flex-direction:column;gap:7px;margin-bottom:7px"></div>
+      <button class="btn bsec bsm" onclick="addAttach()">＋ เพิ่มไฟล์แนบ</button>
+      <small style="display:block;margin-top:4px;color:#9ca3af">ใส่ชื่อและ URL ของเอกสาร/ไฟล์ที่ต้องการแนบ</small>
+    </div>
   </div>
   <div class="mft"><button class="btn bsec" onclick="closeM('m-unit')">ยกเลิก</button><button class="btn bpri" onclick="saveUnit()">💾 บันทึก</button></div></div>
 </div>
@@ -753,9 +783,7 @@ function rCourse(cid){
   document.getElementById('cb').style.background=c.gradient;
   document.getElementById('cemi').textContent=c.emoji;document.getElementById('ctit').textContent=c.title;
   document.getElementById('clvl').textContent=c.level;document.getElementById('cdesc').textContent=c.desc;
-  const{d,t}=gcp(cid);const pct=t?Math.round(d/t*100):0;
-  const r=43,ci=2*Math.PI*r;
-  document.getElementById('cpsumm').innerHTML='<div class="pring"><svg width="58" height="58" viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+r+'" fill="none" stroke="#f3f4f6" stroke-width="10"/><circle cx="50" cy="50" r="'+r+'" fill="none" stroke="'+S().primaryColor+'" stroke-width="10" stroke-dasharray="'+ci+'" stroke-dashoffset="'+(ci-(pct/100)*ci)+'" stroke-linecap="round"/></svg><div class="pringt">'+pct+'%</div></div><div class="pinf"><h3>เรียนแล้ว '+d+'/'+t+' หน่วย</h3><p>'+(pct===100?'🎉 จบครบแล้ว!':pct>0?'กำลังเรียนอยู่ 💪':'เริ่มเรียนได้เลย!')+'</p></div>';
+
   const ul=document.getElementById('ulist');ul.innerHTML='';
   (c.units||[]).forEach((u,i)=>{
     const done=gp(cid,i),qd=gqd(cid,i);
@@ -781,6 +809,8 @@ function rLesson(cid,ui){
   db.textContent=isDone?'✅ เรียนแล้ว — คลิกเพื่อยกเลิก':'📌 ทำเครื่องหมายว่าเรียนแล้ว';
   db.onclick=()=>{sp(cid,ui,!gp(cid,ui));rLesson(cid,ui);};area.appendChild(db);
   area.innerHTML+='<div class="ccard"><h3>📝 สรุปเนื้อหา</h3><p style="font-family:\'Sarabun\',sans-serif;color:#6b7280;line-height:1.75">'+u.summary+'</p></div>';
+  // เนื้อหาบทเรียน (rich content)
+  if(u.content&&u.content.trim()){area.innerHTML+='<div class="ccard"><h3>📄 เนื้อหาบทเรียน</h3><div style="font-family:\'Sarabun\',sans-serif;font-size:.93rem;line-height:1.8;color:#374151">'+u.content+'</div></div>';}
   let kp='<div class="ccard"><h3>🎯 ประเด็นสำคัญ</h3>';
   (u.keyPoints||[]).forEach((k,i)=>{kp+='<div class="kp"><div class="kpn" style="background:'+pc+'">'+(i+1)+'</div><div class="kpt">'+k+'</div></div>';});
   area.innerHTML+=kp+'</div>';
@@ -788,11 +818,16 @@ function rLesson(cid,ui){
   let vid='<div class="ccard"><h3>🎬 วิดีโอประกอบ</h3>';
   if(u.videoUrl&&u.videoUrl.includes('youtube')){vid+='<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden"><iframe src="'+u.videoUrl+'" style="position:absolute;inset:0;width:100%;height:100%;border:none" allowfullscreen></iframe></div>';}
   else if(u.videoUrl){
-    // รองรับ URL รูปแบบอื่น (ไม่ใช่ embed)
     const embedUrl=u.videoUrl.replace('watch?v=','embed/').replace('youtu.be/','www.youtube.com/embed/');
     vid+='<div style="position:relative;padding-bottom:56.25%;height:0;border-radius:10px;overflow:hidden"><iframe src="'+embedUrl+'" style="position:absolute;inset:0;width:100%;height:100%;border:none" allowfullscreen></iframe></div>';
   }else{vid+='<div class="vidph"><div style="font-size:2.3rem;margin-bottom:7px">▶️</div><p style="font-weight:600">'+u.name+'</p><p style="font-size:.78rem;opacity:.6;margin-top:2px">เพิ่มวิดีโอใน Admin → หน่วยการเรียน</p></div>';}
   area.innerHTML+=vid+'</div>';
+  // ไฟล์แนบ
+  if(u.attachments&&u.attachments.length){
+    let att='<div class="ccard"><h3>📎 ไฟล์แนบ / เอกสาร</h3><div style="display:flex;flex-direction:column;gap:8px">';
+    u.attachments.forEach(a=>{if(!a.url)return;att+='<a href="'+a.url+'" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:9px;padding:10px 13px;border:1px solid #e5e7eb;border-radius:10px;text-decoration:none;color:var(--txt);background:#fafafa;transition:background .2s" onmouseover="this.style.background=\'#f0f9ff\'" onmouseout="this.style.background=\'#fafafa\'"><span style="font-size:1.3rem">📄</span><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(a.name||a.url)+'</div><div style="font-size:.73rem;color:#9ca3af;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+a.url+'</div></div><span style="color:var(--p);font-size:.8rem;flex-shrink:0">เปิด ↗</span></a>';});
+    area.innerHTML+=att+'</div></div>';
+  }
   const qd=gqd(cid,ui);
   if(u.quiz&&u.quiz.length){area.innerHTML+='<div class="ccard" style="text-align:center"><h3>❓ ทดสอบความรู้</h3><p style="font-size:.83rem;color:#6b7280;font-family:\'Sarabun\',sans-serif;margin-bottom:13px">'+u.quiz.length+' ข้อ'+(qd?' — ล่าสุด: '+qd.score+'/'+qd.total+' ('+qd.pct+'%)':'')+'</p><button class="btn bpri" style="font-size:.88rem;padding:9px 22px" onclick="nav(\'quiz\',\''+cid+'\','+ui+')">🚀 เริ่มทำ Quiz</button></div>';}
   const prev=ui>0?c.units[ui-1]:null,next=ui<c.units.length-1?c.units[ui+1]:null;
@@ -915,23 +950,68 @@ function loadUA(cid){
   area.innerHTML=h+'</div>';
 }
 function mvU(cid,i,d){const c=C().find(x=>x.id===cid);const ni=i+d;if(ni<0||ni>=c.units.length)return;[c.units[i],c.units[ni]]=[c.units[ni],c.units[i]];saveLocal();loadUA(cid);toast('เรียงลำดับแล้ว','success');}
+function setUIcon(e){
+  document.getElementById('muico').value=e;
+  document.querySelectorAll('#muep .epo').forEach(el=>{
+    el.classList.toggle('sel', el.dataset.e===e);
+  });
+}
 function openUM(cid,idx){
   document.getElementById('mut').textContent=idx>=0?'แก้ไขหน่วย':'เพิ่มหน่วย';
   document.getElementById('mucid').value=cid;document.getElementById('muidx').value=idx;
-  document.getElementById('muep').innerHTML=UE.map(e=>'<div class="epo" style="width:28px;height:28px;font-size:.95rem" onclick="document.getElementById(\'muico\').value=\''+e+'\'">'+e+'</div>').join('');
-  if(idx>=0){const u=C().find(x=>x.id===cid)?.units?.[idx];if(!u)return;document.getElementById('mun').value=u.name||'';document.getElementById('muico').value=u.icon||'';document.getElementById('musum').value=u.summary||'';document.getElementById('muvid').value=u.videoUrl||'';document.getElementById('muflow').value=(u.flowchart||[''])[0]||'';rKPL(u.keyPoints||[]);}
-  else{['mun','musum','muvid','muflow'].forEach(k=>document.getElementById(k).value='');document.getElementById('muico').value='📖';rKPL(['']);}
+  const curIcon=idx>=0?(C().find(x=>x.id===cid)?.units?.[idx]?.icon||'📖'):'📖';
+  document.getElementById('muep').innerHTML=UE.map(e=>'<div class="epo'+(e===curIcon?' sel':'')+'" data-e="'+e+'" style="width:30px;height:30px;font-size:1rem" onclick="setUIcon(\''+e+'\')">'+e+'</div>').join('');
+  if(idx>=0){const u=C().find(x=>x.id===cid)?.units?.[idx];if(!u)return;document.getElementById('mun').value=u.name||'';document.getElementById('muico').value=u.icon||'📖';document.getElementById('musum').value=u.summary||'';document.getElementById('muvid').value=u.videoUrl||'';document.getElementById('muflow').value=(u.flowchart||[''])[0]||'';rKPL(u.keyPoints||[]);document.getElementById('mucontent').innerHTML=u.content||'';rAttach(u.attachments||[]);}
+  else{['mun','musum','muvid','muflow'].forEach(k=>document.getElementById(k).value='');document.getElementById('muico').value='📖';rKPL(['']);document.getElementById('mucontent').innerHTML='';rAttach([]);}
   openM('m-unit');
 }
-function rKPL(pts){document.getElementById('mukps').innerHTML=pts.map((p,i)=>'<div class="kpi"><input type="text" class="fc2" value="'+p+'" placeholder="ประเด็น '+(i+1)+'..."><button class="btn bdan bsm" onclick="this.parentElement.remove()">✕</button></div>').join('');}
-function addKP(){const d=document.getElementById('mukps');const n=d.querySelectorAll('.kpi').length;d.insertAdjacentHTML('beforeend','<div class="kpi"><input type="text" class="fc2" placeholder="ประเด็น '+(n+1)+'..."><button class="btn bdan bsm" onclick="this.parentElement.remove()">✕</button></div>');}
+function rKPL(pts){document.getElementById('mukps').innerHTML=pts.map((p,i)=>'<div class="kpi"><input type="text" class="fc2" value="'+p+'" placeholder="ประเด็นที่ '+(i+1)+'..."><button class="btn bdan bsm" title="ลบ" onclick="this.parentElement.remove()">✕</button></div>').join('');}
+function addKP(){const d=document.getElementById('mukps');const n=d.querySelectorAll('.kpi').length;d.insertAdjacentHTML('beforeend','<div class="kpi"><input type="text" class="fc2" placeholder="ประเด็นที่ '+(n+1)+'..."><button class="btn bdan bsm" title="ลบ" onclick="this.parentElement.remove()">✕</button></div>');d.lastElementChild.querySelector('input').focus();}
 function getKPs(){return Array.from(document.querySelectorAll('#mukps input')).map(i=>i.value.trim()).filter(Boolean);}
+
+// ── Rich text toolbar ──
+function muFmt(tag){
+  const el=document.getElementById('mucontent');el.focus();
+  const sel=window.getSelection();
+  const txt=sel&&sel.toString();
+  if(tag==='br'){document.execCommand('insertHTML',false,'<br>');return;}
+  if(tag==='h3'){document.execCommand('insertHTML',false,'<h3 style="margin:.4em 0;color:var(--p);font-size:1rem">'+(txt||'หัวข้อ')+'</h3>');return;}
+  if(tag==='li'){document.execCommand('insertHTML',false,'<ul style="margin:.3em 0 .3em 1.2em"><li>'+(txt||'รายการ')+'</li></ul>');return;}
+  if(tag==='mark'){document.execCommand('insertHTML',false,'<mark style="background:#fde68a;padding:1px 4px;border-radius:3px">'+(txt||'ไฮไลต์')+'</mark>');return;}
+  document.execCommand(tag==='b'?'bold':tag==='i'?'italic':'underline');
+}
+
+// ── Attachments ──
+function rAttach(list){
+  document.getElementById('muattach').innerHTML=(list||[]).map((a,i)=>
+    `<div class="kpi" data-ai="${i}">
+      <input type="text" class="fc2" style="flex:1;min-width:80px" value="${a.name||''}" placeholder="ชื่อไฟล์/เอกสาร">
+      <input type="url" class="fc2" style="flex:2;min-width:120px" value="${a.url||''}" placeholder="https://...">
+      <button class="btn bdan bsm" title="ลบ" onclick="this.closest('.kpi').remove()">✕</button>
+    </div>`
+  ).join('');
+}
+function addAttach(){
+  const d=document.getElementById('muattach');
+  d.insertAdjacentHTML('beforeend',`<div class="kpi">
+    <input type="text" class="fc2" style="flex:1;min-width:80px" placeholder="ชื่อไฟล์/เอกสาร">
+    <input type="url" class="fc2" style="flex:2;min-width:120px" placeholder="https://...">
+    <button class="btn bdan bsm" title="ลบ" onclick="this.closest('.kpi').remove()">✕</button>
+  </div>`);
+  d.lastElementChild.querySelector('input').focus();
+}
+function getAttachments(){
+  return Array.from(document.querySelectorAll('#muattach .kpi')).map(row=>{
+    const inputs=row.querySelectorAll('input');
+    return{name:inputs[0].value.trim(),url:inputs[1].value.trim()};
+  }).filter(a=>a.name||a.url);
+}
 async function saveUnit(){
   const n=document.getElementById('mun').value.trim(),s=document.getElementById('musum').value.trim();
   if(!n||!s){toast('กรอกชื่อและสรุป','error');return;}
   const cid=document.getElementById('mucid').value,idx=parseInt(document.getElementById('muidx').value);
   const c=C().find(x=>x.id===cid);if(!c)return;
-  const ud={name:n,icon:document.getElementById('muico').value||'📖',summary:s,videoUrl:document.getElementById('muvid').value.trim(),keyPoints:getKPs(),flowchart:[document.getElementById('muflow').value.trim()].filter(Boolean),quiz:idx>=0?(c.units[idx].quiz||[]):[]};
+  const ud={name:n,icon:document.getElementById('muico').value||'📖',summary:s,videoUrl:document.getElementById('muvid').value.trim(),keyPoints:getKPs(),flowchart:[document.getElementById('muflow').value.trim()].filter(Boolean),content:document.getElementById('mucontent').innerHTML.trim(),attachments:getAttachments(),quiz:idx>=0?(c.units[idx].quiz||[]):[]};
   if(idx>=0)c.units[idx]=ud;else{if(!c.units)c.units=[];c.units.push(ud);}
   saveLocal();closeM('m-unit');loadUA(cid);
   if(gasUrl&&aToken){try{await gasCall('saveUnit',{courseId:cid,unitIndex:idx>=0?idx:null,unit:ud});toast('บันทึกและ Sync GAS ✅','success');}catch(_){toast('บันทึก Local แล้ว','info');}}else toast(idx>=0?'แก้ไขแล้ว ✅':'เพิ่มแล้ว ✅','success');
